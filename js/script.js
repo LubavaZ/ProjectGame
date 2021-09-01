@@ -3,10 +3,33 @@ const container = document.getElementById('CONTAINER');
 const canvas = document.getElementById('GAME');
 const ctx = canvas.getContext('2d');
 
-let widthOfCan = 800;
-let heightOfCan = 640;
-canvas.width = widthOfCan;
-canvas.height = heightOfCan;
+InitApp();
+
+window.addEventListener("resize", InitApp);
+
+function InitApp() {
+    let windowW = window.innerWidth;
+    let windowH = window.innerHeight;
+    if (windowW >= 970) {
+        canvas.width = 800;
+        canvas.height = 640;
+    } else {
+        canvas.style.transform = 'none';
+        canvas.style.width = '100%';
+        canvas.style.height = '100%';
+        canvas.width = windowW;
+        canvas.height = windowH;
+    }
+}
+
+let widthOfCan = canvas.width;
+let heightOfCan = canvas.height;
+
+// let stateOfGame = 0;
+let boxX = widthOfCan / 25;
+let boxY = heightOfCan / 25;
+let sizeImg = 32;
+let score = 0;
 
 const appleImg = new Image();
 appleImg.src = 'images/apple.png';
@@ -20,17 +43,13 @@ soundOfFood.src = 'sounds/soundOfFood.mp3';
 const soundOfBomb = new Audio();
 soundOfBomb.src = 'sounds/soundOfBomb.mp3';
 
-// let stateOfGame = 0;
-let box = widthOfCan / 25;
-let score = 0;
-
 //создаем еду для змейки
 class Food {
     constructor() {
-        this.xApple = randomDiap(2, 23) * box;
-        this.yApple = randomDiap(2, 18) * box;
-        this.xBanana = randomDiap(2, 23) * box;
-        this.yBanana = randomDiap(2, 18) * box;
+        this.xApple = randomDiap(2, 22) * boxX;
+        this.yApple = randomDiap(2, 21) * boxY;
+        this.xBanana = randomDiap(2, 22) * boxX;
+        this.yBanana = randomDiap(2, 21) * boxY;
     }
     drawApple() {
         return appleImg;
@@ -44,8 +63,8 @@ let food = new Food();
 //создаем бомбы
 class Bomb {
     constructor() {
-        this.xBomb = randomDiap(2, 23) * box;
-        this.yBomb = randomDiap(2, 18) * box;
+        this.xBomb = randomDiap(2, 22) * boxX;
+        this.yBomb = randomDiap(2, 21) * boxY;
     }
     drawBomb() {
         return bombImg;
@@ -57,8 +76,8 @@ class Snake {
     constructor() {
         this.head = [];
         this.head[0] = {
-            x: 5 * box,
-            y: 5 * box,
+            x: 5 * boxX,
+            y: 5 * boxY,
         }
         this.color = {
             first: '#ED237F',
@@ -74,13 +93,13 @@ class Snake {
                 if (i == 0) {
                     return body.color.first;
                 } else {
-                    if (body.head.length >= 2 && body.head.length < 15) {
+                    if (body.head.length >= 2 && body.head.length < 20) {
                         return body.color.small;
-                    } else if (body.head.length >= 15 && body.head.length < 25) {
+                    } else if (body.head.length >= 20 && body.head.length < 35) {
                         return body.color.medium;
-                    } else if (body.head.length >= 25 && body.head.length < 35) {
+                    } else if (body.head.length >= 35 && body.head.length < 50) {
                         return body.color.big;
-                    } else if (body.head.length >= 35) {
+                    } else if (body.head.length >= 75) {
                         return body.color.extra;
                     }
                 }
@@ -91,9 +110,15 @@ class Snake {
             ctx.fillStyle = c(this);
             ctx.shadowColor = "rgba(0, 0, 0, .5)";
             // ctx.fillRect(this.head[i].x, this.head[i].y, box, box);
-            ctx.arc(this.head[i].x, this.head[i].y, box / 2, 0, Math.PI * 2, false);
+            ctx.arc(this.head[i].x, this.head[i].y, sizeImg / 2, 0, Math.PI * 2, false);
             ctx.fill();
             ctx.closePath();
+        }
+    }
+
+    collision(objX, objY, x, y) {
+        if (x >= objX - sizeImg / 2 && x <= objX + sizeImg + sizeImg / 4 && y >= objY - sizeImg / 2 && y <= objY + sizeImg + sizeImg / 4) {
+            return true;
         }
     }
 }
@@ -102,42 +127,42 @@ let snake = new Snake();
 //область счета
 function scoreBlock() {
     ctx.beginPath();
-    ctx.lineWidth = box * 2;
+    ctx.lineWidth = boxY * 2;
     ctx.strokeStyle = '#202020';
-    ctx.moveTo(0, box);
-    ctx.lineTo(widthOfCan, box);
+    ctx.moveTo(0, boxY);
+    ctx.lineTo(widthOfCan, boxY);
     ctx.stroke();
     ctx.closePath();
 
     ctx.beginPath();
     ctx.fillStyle = snake.color.first;
-    ctx.font = `${widthOfCan / 16}px Arial`;
-    ctx.fillText(score, box, box * 1.5);
+    ctx.font = `${heightOfCan / 12}px Arial`;
+    ctx.fillText(score, boxX, boxY * 1.7);
     ctx.closePath();
 }
 //стены
 function wall() {
     ctx.beginPath(); //правая стена
-    ctx.lineWidth = box;
+    ctx.lineWidth = boxX;
     ctx.strokeStyle = 'rgba(32, 32, 32, .7)';
-    ctx.moveTo(widthOfCan - box / 2, box * 2);
-    ctx.lineTo(widthOfCan - box / 2, heightOfCan);
+    ctx.moveTo(widthOfCan - boxX / 2, boxY * 2);
+    ctx.lineTo(widthOfCan - boxX / 2, heightOfCan);
     ctx.stroke();
     ctx.closePath();
 
     ctx.beginPath(); //левая стена
-    ctx.lineWidth = box;
+    ctx.lineWidth = boxX;
     ctx.strokeStyle = 'rgba(32, 32, 32, .7)';
-    ctx.moveTo(box / 2, box * 2);
-    ctx.lineTo(box / 2, heightOfCan);
+    ctx.moveTo(boxX / 2, boxY * 2);
+    ctx.lineTo(boxX / 2, heightOfCan);
     ctx.stroke();
     ctx.closePath();
 
-    ctx.beginPath(); //левая стена
-    ctx.lineWidth = box;
+    ctx.beginPath(); //нижняя стена
+    ctx.lineWidth = boxX;
     ctx.strokeStyle = 'rgba(32, 32, 32, .7)';
-    ctx.moveTo(0, heightOfCan - box / 2);
-    ctx.lineTo(widthOfCan, heightOfCan - box / 2);
+    ctx.moveTo(0, heightOfCan - boxY / 2);
+    ctx.lineTo(widthOfCan, heightOfCan - boxY / 2);
     ctx.stroke();
     ctx.closePath();
 }
@@ -181,35 +206,36 @@ function drawGame() {
     let snakeX = snake.head[0].x; //координаты нахождения головы змейки
     let snakeY = snake.head[0].y;
 
-    if (((snakeX == food.xApple || snakeX == food.xApple + box) && snakeY >= (food.yApple - box / 4) && snakeY <= (food.yApple + box + box / 4)) || ((snakeY == food.yApple || snakeY == food.yApple + box) && snakeX >= (food.xApple - box / 4) && snakeX <= (food.xApple + box + box / 4))) {
+    if (snake.collision(food.xApple, food.yApple, snakeX, snakeY) === true) {
         score++;
         soundOfFood.play();
         do {
-            food.xApple = randomDiap(2, 23) * box;
-            food.yApple = randomDiap(2, 18) * box;
-        } while ((food.xApple === food.xBanana && food.yApple === food.yBanana) || (food.xApple === bomb.xBomb && food.yApple === bomb.yBomb) || (food.xApple === snakeX - box / 2, food.yApple === snakeY - box / 2));
+            food.xApple = randomDiap(2, 22) * boxX;
+            food.yApple = randomDiap(2, 21) * boxY;
+        } while ((food.xApple === food.xBanana && food.yApple === food.yBanana) || (food.xApple === bomb.xBomb && food.yApple === bomb.yBomb) || (food.xApple >= snakeX - sizeImg / 2 && food.xApple <= snakeX + sizeImg / 2 && food.yApple >= snakeY - sizeImg / 2 && food.yApple <= snakeY + sizeImg / 2));
         ctx.drawImage(food.drawApple(), food.xApple, food.yApple);
-    } else if (((snakeX == food.xBanana || snakeX == food.xBanana + box) && snakeY >= (food.yBanana - box / 4) && snakeY <= (food.yBanana + box + box / 4)) || ((snakeY == food.yBanana || snakeY == food.yBanana + box) && snakeX >= (food.xBanana - box / 4) && snakeX <= (food.xBanana + box + box / 4))) {
+    } else if (snake.collision(food.xBanana, food.yBanana, snakeX, snakeY) === true) {
         score++;
         soundOfFood.play();
         do {
-            food.xBanana = randomDiap(2, 23) * box;
-            food.yBanana = randomDiap(2, 18) * box;
-        } while ((food.xBanana === food.xApple && food.yBanana === food.yApple) || (food.xBanana === bomb.xBomb && food.yBanana === bomb.yBomb) || (food.xBanana === snakeX - box / 2, food.yBanana === snakeY - box / 2));
+            food.xBanana = randomDiap(2, 22) * boxX;
+            food.yBanana = randomDiap(2, 21) * boxY;
+        } while ((food.xBanana === food.xApple && food.yBanana === food.yApple) || (food.xBanana === bomb.xBomb && food.yBanana === bomb.yBomb) || (food.xBanana >= snakeX - sizeImg / 2 && food.xBanana <= snakeX + sizeImg / 2 && food.yBanana >= snakeY - sizeImg / 2 && food.yBanana <= snakeY + sizeImg / 2));
         ctx.drawImage(food.drawBanana(), food.xBanana, food.yBanana);
     }
-    else if (((snakeX == bomb.xBobm || snakeX == bomb.xBomb + box) && snakeY >= (bomb.yBomb - box / 4) && snakeY <= (bomb.yBomb + box + box / 4)) || ((snakeY == bomb.yBomb || snakeY == bomb.yBomb + box) && snakeX >= (bomb.xBomb - box / 4) && snakeX <= (bomb.xBomb + box + box / 4))) {
+    else if (snake.collision(bomb.xBomb, bomb.yBomb, snakeX, snakeY) === true) {
         score--;
         soundOfBomb.play();
         do {
-            bomb.xBomb = randomDiap(2, 23) * box;
-            bomb.yBomb = randomDiap(2, 18) * box;
-        } while ((bomb.xBomb === food.xApple && bomb.yBomb === food.yApple) || (bomb.xBomb === food.xBanana && bomb.yBomb === food.yBanana) || (bomb.xBomb === snakeX - box / 2, bomb.yBomb === snakeY - box / 2));
+            bomb.xBomb = randomDiap(2, 22) * boxX;
+            bomb.yBomb = randomDiap(2, 21) * boxY;
+        } while ((bomb.xBomb === food.xApple && bomb.yBomb === food.yApple) || (bomb.xBomb === food.xBanana && bomb.yBomb === food.yBanana) || (bomb.xBomb >= snakeX - sizeImg && bomb.xBomb <= snakeX + sizeImg && bomb.yBomb >= snakeY - sizeImg && bomb.yBomb <= snakeY + sizeImg));
         if (snake.head.length > 1) {
             snake.head.splice(snake.head.length - 2, 2);
         } else {
             // stateOfGame  = 'game over';
-            alert('game over');
+            // alert('game over');
+            clearInterval(timer);
         }
     }
     else {
@@ -217,14 +243,15 @@ function drawGame() {
     }
 
     //столкновение с основными стенами
-    if (snakeX < box * 1.5 || snakeX > box * 23.5 || snakeY < box * 2.5 || snakeY > box * 18.5) {
-        alert('game over');
+    if (snakeX < boxX * 1.5 || snakeX > boxX * 23.5 || snakeY < boxY * 2.5 || snakeY > boxY * 23.5) {
+        // alert('game over');
+        clearInterval(timer);
     }
 
-    if (direction == 'left') { snakeX -= box / 2 };
-    if (direction == 'right') { snakeX += box / 2 };
-    if (direction == 'up') { snakeY -= box / 2 };
-    if (direction == 'down') { snakeY += box / 2 };
+    if (direction == 'left') { snakeX -= boxX / 2 };
+    if (direction == 'right') { snakeX += boxX / 2 };
+    if (direction == 'up') { snakeY -= boxY / 2 };
+    if (direction == 'down') { snakeY += boxY / 2 };
 
     let newHead = {
         x: snakeX,
@@ -233,15 +260,14 @@ function drawGame() {
 
     eatTail(newHead, snake.head);
     snake.head.unshift(newHead);
-
 }
 
-setInterval(drawGame, 80);
+let timer = setInterval(drawGame, 80);
 
 window.onload = function () {
     document.body.classList.add('loaded_hiding');
     window.setTimeout(function () {
         document.body.classList.add('loaded');
         document.body.classList.remove('loaded_hiding');
-    }, 1000);
+    }, 2000);
 }
