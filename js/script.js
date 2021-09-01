@@ -171,10 +171,11 @@ document.addEventListener('keydown', function (e) {
 //РЕНДЕРИНГ ИГРЫ
 function drawGame() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    ctx.drawImage(food.drawApple(), food.xApple, food.yApple);
-    ctx.drawImage(food.drawBanana(), food.xBanana, food.yBanana);
-    ctx.drawImage(bomb.drawBomb(), bomb.xBomb, bomb.yBomb);
-
+    window.onload = function () {
+        ctx.drawImage(food.drawApple(), food.xApple, food.yApple);
+        ctx.drawImage(food.drawBanana(), food.xBanana, food.yBanana);
+        ctx.drawImage(bomb.drawBomb(), bomb.xBomb, bomb.yBomb);
+    }
     scoreBlock();
     wall();
     snake.drawSnake();
