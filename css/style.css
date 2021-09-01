@@ -104,7 +104,7 @@
 }
 
 .backgr {
-    background: url(images/green.jpg);
+    background: url(../images/green.jpg);
     width: 100vw;
     height: 100vh;
 }
