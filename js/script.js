@@ -9,16 +9,16 @@ canvas.width = widthOfCan;
 canvas.height = heightOfCan;
 
 const appleImg = new Image();
-appleImg.src = '../images/apple.png';
+appleImg.src = 'images/apple.png';
 const bananaImg = new Image();
-bananaImg.src = '../images/banana.png';
+bananaImg.src = 'images/banana.png';
 const bombImg = new Image();
-bombImg.src = '../images/bomb.png'
+bombImg.src = 'images/bomb.png'
 
 const soundOfFood = new Audio();
-soundOfFood.src = '../sounds/soundOfFood.mp3';
+soundOfFood.src = 'sounds/soundOfFood.mp3';
 const soundOfBomb = new Audio();
-soundOfBomb.src = '../sounds/soundOfBomb.mp3';
+soundOfBomb.src = 'sounds/soundOfBomb.mp3';
 
 // let stateOfGame = 0;
 let box = widthOfCan / 25;
