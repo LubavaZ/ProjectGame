@@ -9,9 +9,9 @@ canvas.width = widthOfCan;
 canvas.height = heightOfCan;
 
 const appleImg = new Image();
-appleImg.src = '../../images/apple.png';
+appleImg.src = 'images/apple.png';
 const bananaImg = new Image();
-bananaImg.src = '../../images/banana.png';
+bananaImg.src = './images/banana.png';
 const bombImg = new Image();
 bombImg.src = '../../images/bomb.png'
 
