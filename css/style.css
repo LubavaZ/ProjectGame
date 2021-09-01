@@ -104,27 +104,17 @@
 }
 
 .backgr {
-    background: url(../images/green.jpg);
+    background: url(images/green.jpg);
     width: 100vw;
     height: 100vh;
 }
 
+#CONTAINER {
+    width: 100%;
+}
+
 canvas {
     position: absolute;
-    top: 15vh;
-    left: 15vw;
+    transform: translateX(10%) translateY(5%);
     background: green;
-}
-
-@media (max-width: 1100px) {
-    canvas {
-        left: 10vw;
-    }
-}
-
-@media (max-width: 1010px) {
-    canvas {
-        left: 0;
-        width: 100%;
-    }
 }
