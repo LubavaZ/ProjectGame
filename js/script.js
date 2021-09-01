@@ -9,11 +9,11 @@ canvas.width = widthOfCan;
 canvas.height = heightOfCan;
 
 const appleImg = new Image();
-appleImg.src = './images/apple.png';
+appleImg.src = '../images/apple.png';
 const bananaImg = new Image();
-bananaImg.src = './images/banana.png';
+bananaImg.src = '../images/banana.png';
 const bombImg = new Image();
-bombImg.src = './images/bomb.png'
+bombImg.src = '../images/bomb.png'
 
 const soundOfFood = new Audio();
 soundOfFood.src = '../sounds/soundOfFood.mp3';
@@ -171,11 +171,10 @@ document.addEventListener('keydown', function (e) {
 //РЕНДЕРИНГ ИГРЫ
 function drawGame() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    window.onload = function () {
-        ctx.drawImage(food.drawApple(), food.xApple, food.yApple);
-        ctx.drawImage(food.drawBanana(), food.xBanana, food.yBanana);
-        ctx.drawImage(bomb.drawBomb(), bomb.xBomb, bomb.yBomb);
-    }
+    ctx.drawImage(food.drawApple(), food.xApple, food.yApple);
+    ctx.drawImage(food.drawBanana(), food.xBanana, food.yBanana);
+    ctx.drawImage(bomb.drawBomb(), bomb.xBomb, bomb.yBomb);
+
     scoreBlock();
     wall();
     snake.drawSnake();
