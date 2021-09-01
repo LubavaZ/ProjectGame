@@ -85,7 +85,6 @@ class Snake {
                     }
                 }
             };
-            console.log(this.head.length);
             ctx.beginPath();
             ctx.shadowOffsetY = 4;
             ctx.shadowBlur = 2;
@@ -234,7 +233,6 @@ function drawGame() {
 
     eatTail(newHead, snake.head);
     snake.head.unshift(newHead);
-    console.log(food.xApple, food.yApple, food.xBanana, food.yBanana, bomb.xBomb, bomb.yBomb);
 
 }
 
