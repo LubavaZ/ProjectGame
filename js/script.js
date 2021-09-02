@@ -452,13 +452,7 @@ function drawGame() {
     //столкновение с основными стенами
     if (snakeX < boxX * 1.5 || snakeX > boxX * 23.5 || snakeY < boxY * 2.5 || snakeY > boxY * 23.5) {
         // alert('game over');
-        window.navigator = window.navigator || {};
-        if (navigator.vibrate === undefined) {
-            alert("Вибрация не поддерживается");
-        } else {
-            alert("Вибрация поддерживается. Нажмите на кнопку");
-            navigator.vibrate(1000);
-        }
+        window.navigator.vibrate(1000);
         clearInterval(timer);
     }
 
