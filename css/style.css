@@ -118,3 +118,33 @@ canvas {
     transform: translateX(10%) translateY(5%);
     background: green;
 }
+
+/* кнопки для мини-меню */
+
+.mini-button, .side-button {
+    cursor: pointer;
+}
+
+#sON, #sONside {
+    opacity: 1;
+}
+
+#sOFF, #sOFFside {
+    opacity: 0;
+}
+
+#sON:hover, #sONside:hover {
+    opacity: 0;
+}
+
+#sOFF:hover, #sOFFside:hover {
+    opacity: 1;
+}
+
+#sONside, #sOFFside {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    left: 0;
+    top: 0;
+}

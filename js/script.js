@@ -3,13 +3,13 @@ const container = document.getElementById('CONTAINER');
 const canvas = document.getElementById('GAME');
 const ctx = canvas.getContext('2d');
 
-InitApp();
+let windowW = window.innerWidth;
+let windowH = window.innerHeight;
 
+InitApp();
 window.addEventListener("resize", InitApp);
 
 function InitApp() {
-    let windowW = window.innerWidth;
-    let windowH = window.innerHeight;
     if (windowW >= 970) {
         canvas.width = 800;
         canvas.height = 640;
@@ -42,6 +42,68 @@ const soundOfFood = new Audio();
 soundOfFood.src = 'sounds/soundOfFood.mp3';
 const soundOfBomb = new Audio();
 soundOfBomb.src = 'sounds/soundOfBomb.mp3';
+
+//иконки для мини-меню
+let playSVG = document.getElementById('PLAY');
+let pauseSVG = document.getElementById('PAUSE');
+let soundON = document.getElementById('sON');
+let soundOFF = document.getElementById('sOFF');
+
+placeSVG(playSVG, boxX, boxY);
+placeSVG(pauseSVG, boxX, boxY);
+placeSVG(soundON, boxX, boxY);
+placeSVG(soundOFF, boxX, boxY);
+//кнопки бокового меню для больших экранов
+let playSide = document.querySelector('.play');
+let pauseSide = document.querySelector('.pause');
+let soundSide = document.querySelector('.sound');
+let leftSide = 50;
+let topSide = 50;
+
+placeSVGSide(playSide, leftSide, topSide);
+placeSVGSide(pauseSide, leftSide, topSide);
+placeSVGSide(soundSide, leftSide, topSide);
+
+function placeSVG(pSVG, w, h) {
+    if (windowW >= 970) {
+        pSVG.style.display = 'none';
+    } else {
+        pSVG.style.display = 'block';
+        pSVG.style.position = 'absolute';
+        pSVG.style.zIndex = '10';
+        pSVG.style.width = w * 2;
+        pSVG.style.height = h * 2;
+        pSVG.style.top = 0;
+        if (pSVG === playSVG) {
+            pSVG.style.right = 0;
+        } else if (pSVG === pauseSVG) {
+            pSVG.style.right = w * 2.5;
+        } else if (pSVG === soundON || pSVG === soundOFF) {
+            pSVG.style.right = w * 5;
+        }
+    }
+}
+function placeSVGSide(pSVGs, w, h) {
+    if (windowW < 970) {
+        pSVGs.style.display = 'none';
+    } else {
+        pSVGs.style.display = 'block';
+        pSVGs.style.position = 'absolute';
+        pSVGs.style.width = w * 2 + 'px';
+        pSVGs.style.height = h * 2 + 'px';
+        pSVGs.style.left = '900px';
+        pSVGs.style.border = 'none';
+        pSVGs.style.background = 'transparent'
+        if (pSVGs === playSide) {
+            pSVGs.style.top = h * 3 + 'px';
+        } else if (pSVGs === pauseSide) {
+            pSVGs.style.top = h * 5 + 'px';
+        } else if (pSVGs === soundSide) {
+            pSVGs.style.top = h * 7 + 'px';
+        }
+    }
+}
+
 
 //создаем еду для змейки
 class Food {
