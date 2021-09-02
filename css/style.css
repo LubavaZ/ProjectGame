@@ -48,11 +48,31 @@
 
 /* конец стилей для прелоадера */
 
-.menu {
+/* предупреждение о развороте экрана */
+
+#turnScreen {
     position: absolute;
     width: 100vw;
     height: 100vh;
     display: none;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: rgba(32, 32, 32, 1);
+    z-index: 3;
+}
+
+#turnScreen p {
+    font-size: 24px;
+    text-align: center;
+    color: #eeacca;
+}
+
+.menu {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;

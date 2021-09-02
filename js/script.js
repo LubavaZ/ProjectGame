@@ -22,6 +22,55 @@ function InitApp() {
     }
 }
 
+let startGame = document.getElementById('startGame');
+
+startGame.addEventListener('click', (e) => {
+
+    let orient = window.screen.orientation;
+    let mainPage = document.querySelector('.menu');
+    let turn = document.getElementById('turnScreen');
+    let html = document.documentElement;
+
+    if (/Android|webOS|iPhone|iPad|iPod|IEMobile|Windows Phone|Opera Mini/i.test(navigator.userAgent)) {
+
+
+        if (orient.type === 'portrait-primary') {
+            turn.style.display = 'flex';
+        }
+
+        if (orient.type === 'landscape-primary') {
+            turn.style.display = 'none';
+            mainPage.style.display = 'none';
+            canvas.width = windowW;
+            canvas.height = windowH;
+
+            function fullScreen(element) {
+                if (element.requestFullscreen) {
+                    element.requestFullscreen();
+                }
+            }
+
+            fullScreen(canvas);
+        }
+        window.addEventListener('orientationchange', () => {
+            if (orient.type === 'landscape-primary') {
+                turn.style.display = 'none';
+                mainPage.style.display = 'none';
+                canvas.width = windowW;
+                canvas.height = windowH;
+
+                function fullScreen(element) {
+                    if (element.requestFullscreen) {
+                        element.requestFullscreen();
+                    }
+                }
+
+                fullScreen(canvas);
+            }
+        });
+    }
+});
+
 let widthOfCan = canvas.width;
 let heightOfCan = canvas.height;
 
@@ -38,6 +87,9 @@ bananaImg.src = 'images/banana.png';
 const bombImg = new Image();
 bombImg.src = 'images/bomb.png'
 
+const soundOfGame = new Audio();
+soundOfGame.src = '../sounds/forGame.mp3';
+// soundOfGame.play();
 const soundOfFood = new Audio();
 soundOfFood.src = 'sounds/soundOfFood.mp3';
 const soundOfBomb = new Audio();
@@ -400,7 +452,13 @@ function drawGame() {
     //столкновение с основными стенами
     if (snakeX < boxX * 1.5 || snakeX > boxX * 23.5 || snakeY < boxY * 2.5 || snakeY > boxY * 23.5) {
         // alert('game over');
-        navigator.vibrate(1000);
+        window.navigator = window.navigator || {};
+        if (navigator.vibrate === undefined) {
+            alert("Вибрация не поддерживается");
+        } else {
+            alert("Вибрация поддерживается. Нажмите на кнопку");
+            navigator.vibrate(1000);
+        }
         clearInterval(timer);
     }
 
