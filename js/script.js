@@ -14,6 +14,10 @@ function InitApp() {
         canvas.width = 800;
         canvas.height = 640;
     } else {
+        container.style.width = '100%';
+        container.style.height = 'unset';
+        container.style.position = 'unset';
+        container.style.margin = 0;
         canvas.style.transform = 'none';
         canvas.style.width = '100%';
         canvas.style.height = '100%';
@@ -95,7 +99,7 @@ soundOfFood.src = 'sounds/soundOfFood.mp3';
 const soundOfBomb = new Audio();
 soundOfBomb.src = 'sounds/soundOfBomb.mp3';
 
-//иконки для мини-меню
+//кнопки для мини-меню
 let playMini = document.querySelector('.PLAY');
 let pauseMini = document.querySelector('.PAUSE');
 let soundMini = document.querySelector('.SOUND');
@@ -124,6 +128,8 @@ function placeMini(buttMini, w, h) {
         }
     }
 }
+playMini.addEventListener('touchstart', vibr(1000));
+playMini.addEventListener('click', vibr(1000));
 
 //позиционирование svg кнопок мини-меню
 let soundONSVG = document.getElementById('sON');
@@ -147,30 +153,29 @@ function sizeSVG(elem) {
 let playSide = document.querySelector('.play');
 let pauseSide = document.querySelector('.pause');
 let soundSide = document.querySelector('.sound');
-let leftSide = 50;
-let topSide = 50;
+let shift = 7;
 
-placeSide(playSide, leftSide, topSide);
-placeSide(pauseSide, leftSide, topSide);
-placeSide(soundSide, leftSide, topSide);
+placeSide(playSide, shift);
+placeSide(pauseSide, shift);
+placeSide(soundSide, shift);
 
-function placeSide(buttSide, w, h) {
+function placeSide(buttSide, s) {
     if (windowW < 970) {
         buttSide.style.display = 'none';
     } else {
         buttSide.style.display = 'block';
         buttSide.style.position = 'absolute';
-        buttSide.style.width = w * 2 + 'px';
-        buttSide.style.height = h * 2 + 'px';
-        buttSide.style.left = '900px';
+        buttSide.style.width = s + 'vw';
+        buttSide.style.height = s + 'vw';
+        buttSide.style.top = '0.5vw';
         buttSide.style.border = 'none';
         buttSide.style.background = 'transparent';
         if (buttSide === playSide) {
-            buttSide.style.top = h * 3 + 'px';
+            buttSide.style.left = s * 4.7 + 'vw';
         } else if (buttSide === pauseSide) {
-            buttSide.style.top = h * 5 + 'px';
+            buttSide.style.left = s * 6.7 + 'vw';
         } else if (buttSide === soundSide) {
-            buttSide.style.top = h * 7 + 'px';
+            buttSide.style.left = s * 8.7 + 'vw';
         }
     }
 }
@@ -452,10 +457,12 @@ function drawGame() {
     //столкновение с основными стенами
     if (snakeX < boxX * 1.5 || snakeX > boxX * 23.5 || snakeY < boxY * 2.5 || snakeY > boxY * 23.5) {
         // alert('game over');
-        window.navigator.vibrate(1000);
+        vibr(1000);
         clearInterval(timer);
     }
-
+    function vibr(s) {
+        navigator.vibrate(s);
+    }
     if (direction == 'left' || direction == "Swipe Left") { snakeX -= boxX / 2 };
     if (direction == 'right' || direction == "Swipe Right") { snakeX += boxX / 2 };
     if (direction == 'up' || direction == "Swipe Up") { snakeY -= boxY / 2 };

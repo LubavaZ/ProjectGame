@@ -141,16 +141,25 @@
 }
 
 #CONTAINER {
-    width: 100%;
+    width: 800px;
+    height: 640px;
+    position: relative;
+    margin: 7vw auto;
 }
 
 canvas {
     position: absolute;
-    transform: translateX(10%) translateY(5%);
     background: green;
 }
 
-/* кнопки для мини-меню */
+/* кнопки для мини-меню и бокового меню*/
+
+#side-menu {
+    position: relative;
+    margin: 0 auto;
+    width: 800px;
+    height: 5%;
+}
 
 .mini-button, .side-button {
     cursor: pointer;
@@ -174,8 +183,8 @@ canvas {
 
 #sONside, #sOFFside {
     position: absolute;
-    width: 100px;
-    height: 100px;
+    width: 7vw;
+    height: 7vw;
     left: 0;
     top: 0;
 }
