@@ -44,15 +44,53 @@ const soundOfBomb = new Audio();
 soundOfBomb.src = 'sounds/soundOfBomb.mp3';
 
 //иконки для мини-меню
-let playSVG = document.getElementById('PLAY');
-let pauseSVG = document.getElementById('PAUSE');
-let soundON = document.getElementById('sON');
-let soundOFF = document.getElementById('sOFF');
+let playMini = document.querySelector('.PLAY');
+let pauseMini = document.querySelector('.PAUSE');
+let soundMini = document.querySelector('.SOUND');
 
-placeSVG(playSVG, boxX, boxY);
-placeSVG(pauseSVG, boxX, boxY);
-placeSVG(soundON, boxX, boxY);
-placeSVG(soundOFF, boxX, boxY);
+placeMini(playMini, boxX, boxY);
+placeMini(pauseMini, boxX, boxY);
+placeMini(soundMini, boxX, boxY);
+
+function placeMini(buttMini, w, h) {
+    if (windowW >= 970) {
+        buttMini.style.display = 'none';
+    } else {
+        buttMini.style.display = 'block';
+        buttMini.style.position = 'absolute';
+        buttMini.style.width = w * 2 + 'px';
+        buttMini.style.height = h * 2 + 'px';
+        buttMini.style.top = 0;
+        buttMini.style.border = 'none';
+        buttMini.style.background = 'transparent';
+        if (buttMini === playMini) {
+            buttMini.style.right = w / 2 + 'px';
+        } else if (buttMini === pauseMini) {
+            buttMini.style.right = w * 2.5 + 'px';
+        } else if (buttMini === soundMini) {
+            buttMini.style.right = w * 4.5 + 'px';
+        }
+    }
+}
+
+//позиционирование svg кнопок мини-меню
+let soundONSVG = document.getElementById('sON');
+let soundOFFSVG = document.getElementById('sOFF');
+let playMiniSVG = document.getElementById('playMiniSVG');
+let pauseMiniSVG = document.getElementById('pauseMiniSVG');
+
+sizeSVG(soundONSVG);
+sizeSVG(soundOFFSVG);
+sizeSVG(playMiniSVG);
+sizeSVG(pauseMiniSVG);
+
+function sizeSVG(elem) {
+    elem.style.width = boxX * 2;
+    elem.style.height = boxY * 2;
+    elem.style.position = 'absolute';
+    elem.style.top = 0;
+    elem.style.left = 0;
+}
 //кнопки бокового меню для больших экранов
 let playSide = document.querySelector('.play');
 let pauseSide = document.querySelector('.pause');
@@ -60,46 +98,27 @@ let soundSide = document.querySelector('.sound');
 let leftSide = 50;
 let topSide = 50;
 
-placeSVGSide(playSide, leftSide, topSide);
-placeSVGSide(pauseSide, leftSide, topSide);
-placeSVGSide(soundSide, leftSide, topSide);
+placeSide(playSide, leftSide, topSide);
+placeSide(pauseSide, leftSide, topSide);
+placeSide(soundSide, leftSide, topSide);
 
-function placeSVG(pSVG, w, h) {
-    if (windowW >= 970) {
-        pSVG.style.display = 'none';
-    } else {
-        pSVG.style.display = 'block';
-        pSVG.style.position = 'absolute';
-        pSVG.style.zIndex = '10';
-        pSVG.style.width = w * 2;
-        pSVG.style.height = h * 2;
-        pSVG.style.top = 0;
-        if (pSVG === playSVG) {
-            pSVG.style.right = 0;
-        } else if (pSVG === pauseSVG) {
-            pSVG.style.right = w * 2.5;
-        } else if (pSVG === soundON || pSVG === soundOFF) {
-            pSVG.style.right = w * 5;
-        }
-    }
-}
-function placeSVGSide(pSVGs, w, h) {
+function placeSide(buttSide, w, h) {
     if (windowW < 970) {
-        pSVGs.style.display = 'none';
+        buttSide.style.display = 'none';
     } else {
-        pSVGs.style.display = 'block';
-        pSVGs.style.position = 'absolute';
-        pSVGs.style.width = w * 2 + 'px';
-        pSVGs.style.height = h * 2 + 'px';
-        pSVGs.style.left = '900px';
-        pSVGs.style.border = 'none';
-        pSVGs.style.background = 'transparent'
-        if (pSVGs === playSide) {
-            pSVGs.style.top = h * 3 + 'px';
-        } else if (pSVGs === pauseSide) {
-            pSVGs.style.top = h * 5 + 'px';
-        } else if (pSVGs === soundSide) {
-            pSVGs.style.top = h * 7 + 'px';
+        buttSide.style.display = 'block';
+        buttSide.style.position = 'absolute';
+        buttSide.style.width = w * 2 + 'px';
+        buttSide.style.height = h * 2 + 'px';
+        buttSide.style.left = '900px';
+        buttSide.style.border = 'none';
+        buttSide.style.background = 'transparent';
+        if (buttSide === playSide) {
+            buttSide.style.top = h * 3 + 'px';
+        } else if (buttSide === pauseSide) {
+            buttSide.style.top = h * 5 + 'px';
+        } else if (buttSide === soundSide) {
+            buttSide.style.top = h * 7 + 'px';
         }
     }
 }
@@ -221,7 +240,7 @@ function wall() {
     ctx.closePath();
 
     ctx.beginPath(); //нижняя стена
-    ctx.lineWidth = boxX;
+    ctx.lineWidth = boxY;
     ctx.strokeStyle = 'rgba(32, 32, 32, .7)';
     ctx.moveTo(0, heightOfCan - boxY / 2);
     ctx.lineTo(widthOfCan, heightOfCan - boxY / 2);
@@ -253,6 +272,80 @@ document.addEventListener('keydown', function (e) {
         direction = 'down';
     }
 })
+
+//УПРАВЛЕНИЕ ЖЕСТАМИ НА ТАЧСКРИНЕ
+let touchStart = null;
+let touchPosition = null;
+const sensitivity = 10;
+
+
+canvas.addEventListener("touchstart", function (e) { TouchStart(e); });
+canvas.addEventListener("touchmove", function (e) { TouchMove(e); });
+canvas.addEventListener("touchend", function (e) { TouchEnd(e); });
+canvas.addEventListener("touchcancel", function (e) { TouchEnd(e); });
+
+function TouchStart(e) {
+    //Получаем текущую позицию касания
+    touchStart = {
+        x: e.changedTouches[0].clientX,
+        y: e.changedTouches[0].clientY,
+    };
+    touchPosition = {
+        x: touchStart.x,
+        y: touchStart.y,
+    };
+}
+
+function TouchMove(e) {
+    //Получаем новую позицию
+    touchPosition = {
+        x: e.changedTouches[0].clientX,
+        y: e.changedTouches[0].clientY,
+    };
+}
+
+function TouchEnd(e) {
+    CheckAction();
+    touchStart = null;
+    touchPosition = null;
+}
+
+function CheckAction() {
+    var d = //Получаем расстояния от начальной до конечной точек по обеим осям
+    {
+        x: touchStart.x - touchPosition.x,
+        y: touchStart.y - touchPosition.y,
+    };
+
+
+    if (Math.abs(d.x) > Math.abs(d.y)) //Проверяем, движение по какой оси было длиннее
+    {
+        if (Math.abs(d.x) > sensitivity) //Проверяем, было ли движение достаточно длинным
+        {
+            if (d.x > 0 && direction !== "Swipe Right") //Если значение больше нуля, значит пользователь двигал пальцем справа налево
+            {
+                direction = "Swipe Left";
+            }
+            else if (d.x < 0 && direction !== "Swipe Left") //Иначе он двигал им слева направо
+            {
+                direction = "Swipe Right";
+            }
+        }
+    }
+    else //Аналогичные проверки для вертикальной оси
+    {
+        if (Math.abs(d.y) > sensitivity) {
+            if (d.y > 0 && direction !== "Swipe Down") //Свайп вверх
+            {
+                direction = "Swipe Up";
+            }
+            else if (d.y < 0 && direction !== "Swipe Up") //Свайп вниз
+            {
+                direction = "Swipe Down";
+            }
+        }
+    }
+}
 
 //РЕНДЕРИНГ ИГРЫ
 function drawGame() {
@@ -307,13 +400,14 @@ function drawGame() {
     //столкновение с основными стенами
     if (snakeX < boxX * 1.5 || snakeX > boxX * 23.5 || snakeY < boxY * 2.5 || snakeY > boxY * 23.5) {
         // alert('game over');
+        navigator.vibrate(1000);
         clearInterval(timer);
     }
 
-    if (direction == 'left') { snakeX -= boxX / 2 };
-    if (direction == 'right') { snakeX += boxX / 2 };
-    if (direction == 'up') { snakeY -= boxY / 2 };
-    if (direction == 'down') { snakeY += boxY / 2 };
+    if (direction == 'left' || direction == "Swipe Left") { snakeX -= boxX / 2 };
+    if (direction == 'right' || direction == "Swipe Right") { snakeX += boxX / 2 };
+    if (direction == 'up' || direction == "Swipe Up") { snakeY -= boxY / 2 };
+    if (direction == 'down' || direction == "Swipe Down") { snakeY += boxY / 2 };
 
     let newHead = {
         x: snakeX,
