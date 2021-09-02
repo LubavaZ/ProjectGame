@@ -28,12 +28,23 @@ function InitApp() {
 
 let startGame = document.getElementById('startGame');
 
+startGame.addEventListener('touchstart', vibr(1000));
 startGame.addEventListener('click', (e) => {
 
     let orient = window.screen.orientation;
     let mainPage = document.querySelector('.menu');
     let turn = document.getElementById('turnScreen');
     let html = document.documentElement;
+
+    function fullScreen(element) {
+        if (element.requestFullscreen) {
+            element.requestFullscreen();
+        } else if (element.mozRequestFullScreen) {
+            element.mozRequestFullScreen();
+        } else if (element.webkitRequestFullScreen) {
+            element.webkitRequestFullScreen();
+        }
+    }
 
     if (/Android|webOS|iPhone|iPad|iPod|IEMobile|Windows Phone|Opera Mini/i.test(navigator.userAgent)) {
 
@@ -45,14 +56,8 @@ startGame.addEventListener('click', (e) => {
         if (orient.type === 'landscape-primary') {
             turn.style.display = 'none';
             mainPage.style.display = 'none';
-            canvas.width = windowW;
-            canvas.height = windowH;
-
-            function fullScreen(element) {
-                if (element.requestFullscreen) {
-                    element.requestFullscreen();
-                }
-            }
+            canvas.width = '100%';
+            canvas.height = '100%';
 
             fullScreen(canvas);
         }
@@ -60,14 +65,8 @@ startGame.addEventListener('click', (e) => {
             if (orient.type === 'landscape-primary') {
                 turn.style.display = 'none';
                 mainPage.style.display = 'none';
-                canvas.width = windowW;
-                canvas.height = windowH;
-
-                function fullScreen(element) {
-                    if (element.requestFullscreen) {
-                        element.requestFullscreen();
-                    }
-                }
+                canvas.width = '100%';
+                canvas.height = '100%';
 
                 fullScreen(canvas);
             }
@@ -128,8 +127,6 @@ function placeMini(buttMini, w, h) {
         }
     }
 }
-playMini.addEventListener('touchstart', vibr(1000));
-playMini.addEventListener('click', vibr(1000));
 
 //позиционирование svg кнопок мини-меню
 let soundONSVG = document.getElementById('sON');
