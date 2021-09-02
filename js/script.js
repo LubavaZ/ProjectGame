@@ -3,11 +3,8 @@ const container = document.getElementById('CONTAINER');
 const canvas = document.getElementById('GAME');
 const ctx = canvas.getContext('2d');
 
-// let windowW = window.innerWidth;
-// let windowH = window.innerHeight;
-
-let windowW = document.documentElement.clientWidth;
-let windowH = document.documentElement.clientHeight;
+let windowW = window.innerWidth;
+let windowH = window.innerHeight;
 
 InitApp();
 window.addEventListener("resize", InitApp);
@@ -131,6 +128,8 @@ function placeMini(buttMini, w, h) {
         }
     }
 }
+playMini.addEventListener('touchstart', vibr(1000));
+playMini.addEventListener('click', vibr(1000));
 
 //позиционирование svg кнопок мини-меню
 let soundONSVG = document.getElementById('sON');
