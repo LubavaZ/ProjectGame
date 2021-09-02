@@ -460,9 +460,8 @@ function drawGame() {
         vibr(1000);
         clearInterval(timer);
     }
-    function vibr(s) {
-        navigator.vibrate(s);
-    }
+
+
     if (direction == 'left' || direction == "Swipe Left") { snakeX -= boxX / 2 };
     if (direction == 'right' || direction == "Swipe Right") { snakeX += boxX / 2 };
     if (direction == 'up' || direction == "Swipe Up") { snakeY -= boxY / 2 };
@@ -476,7 +475,9 @@ function drawGame() {
     eatTail(newHead, snake.head);
     snake.head.unshift(newHead);
 }
-
+function vibr(s) {
+    navigator.vibrate(s);
+}
 let timer = setInterval(drawGame, 80);
 
 window.onload = function () {
