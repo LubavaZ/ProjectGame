@@ -19,8 +19,8 @@ function InitApp() {
         container.style.position = 'unset';
         container.style.margin = 0;
         canvas.style.transform = 'none';
-        canvas.style.width = '100%';
-        canvas.style.height = '100%';
+        // canvas.style.width = '100%';
+        // canvas.style.height = '100%';
         canvas.width = windowW;
         canvas.height = windowH;
     }
@@ -56,8 +56,7 @@ startGame.addEventListener('click', (e) => {
         if (orient.type === 'landscape-primary') {
             turn.style.display = 'none';
             mainPage.style.display = 'none';
-            canvas.width = '100%';
-            canvas.height = '100%';
+            InitApp();
 
             fullScreen(canvas);
         }
@@ -65,8 +64,7 @@ startGame.addEventListener('click', (e) => {
             if (orient.type === 'landscape-primary') {
                 turn.style.display = 'none';
                 mainPage.style.display = 'none';
-                canvas.width = '100%';
-                canvas.height = '100%';
+                InitApp();
 
                 fullScreen(canvas);
             }
