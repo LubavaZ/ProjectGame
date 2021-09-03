@@ -6,6 +6,7 @@ const ctx = canvas.getContext('2d');
 let windowW = window.innerWidth;
 let windowH = window.innerHeight;
 
+
 InitApp();
 window.addEventListener("resize", InitApp);
 
@@ -19,8 +20,6 @@ function InitApp() {
         container.style.position = 'unset';
         container.style.margin = 0;
         canvas.style.transform = 'none';
-        canvas.style.width = '100%';
-        canvas.style.height = '100%';
         canvas.width = windowW;
         canvas.height = windowH;
     }
@@ -31,57 +30,13 @@ let startGame = document.getElementById('startGame');
 startGame.addEventListener('touchstart', vibr(1000));
 startGame.addEventListener('click', (e) => {
 
-    let orient = window.screen.orientation;
     let mainPage = document.querySelector('.menu');
-    let turn = document.getElementById('turnScreen');
+    mainPage.style.display = 'none';
+    canvas.style.width = '100%';
+    canvas.style.height = '100%';
+    canvas.width = windowW;
+    canvas.height = windowH;
 
-    function fullScreen(element) {
-        if (element.requestFullscreen) {
-            element.requestFullscreen();
-        } else if (element.mozRequestFullScreen) {
-            element.mozRequestFullScreen();
-        } else if (element.webkitRequestFullScreen) {
-            element.webkitRequestFullScreen();
-        }
-    }
-
-    if (/Android|webOS|iPhone|iPad|iPod|IEMobile|Windows Phone|Opera Mini/i.test(navigator.userAgent)) {
-
-
-        if (orient.type === 'portrait-primary') {
-            turn.style.display = 'flex';
-        }
-
-        if (orient.type === 'landscape-primary') {
-            turn.style.display = 'none';
-            mainPage.style.display = 'none';
-            canvas.style.width = '100%';
-            canvas.style.height = '100%';
-            canvas.width = windowW;
-            canvas.height = windowH;
-
-            fullScreen(canvas);
-        }
-        window.addEventListener('orientationchange', () => {
-            if (orient.type === 'landscape-primary') {
-                turn.style.display = 'none';
-                mainPage.style.display = 'none';
-                canvas.style.width = '100%';
-                canvas.style.height = '100%';
-                canvas.width = windowW;
-                canvas.height = windowH;
-
-                fullScreen(canvas);
-
-            }
-            else if (orient.type === 'portrait-primary') {
-                canvas.style.width = '100%';
-                canvas.style.height = '100%';
-                canvas.width = windowW;
-                canvas.height = windowH;
-            }
-        });
-    }
 });
 
 let widthOfCan = canvas.width;
