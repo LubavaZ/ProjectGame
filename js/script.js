@@ -67,6 +67,8 @@ startGame.addEventListener('click', (e) => {
                 InitApp();
 
                 fullScreen(canvas);
+            } else if (orient.type === 'portrait-primary') {
+                InitApp();
             }
         });
     }
