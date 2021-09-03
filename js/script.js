@@ -32,10 +32,7 @@ startGame.addEventListener('click', (e) => {
 
     let mainPage = document.querySelector('.menu');
     mainPage.style.display = 'none';
-    canvas.style.width = '100%';
-    canvas.style.height = '100%';
-    canvas.width = windowW;
-    canvas.height = windowH;
+    InitApp();
 
 });
 
