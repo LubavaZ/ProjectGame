@@ -34,7 +34,6 @@ startGame.addEventListener('click', (e) => {
     let orient = window.screen.orientation;
     let mainPage = document.querySelector('.menu');
     let turn = document.getElementById('turnScreen');
-    let html = document.documentElement;
 
     function fullScreen(element) {
         if (element.requestFullscreen) {
@@ -56,7 +55,10 @@ startGame.addEventListener('click', (e) => {
         if (orient.type === 'landscape-primary') {
             turn.style.display = 'none';
             mainPage.style.display = 'none';
-            InitApp();
+            canvas.style.width = '100%';
+            canvas.style.height = '100%';
+            canvas.width = windowW;
+            canvas.height = windowH;
 
             fullScreen(canvas);
         }
@@ -64,11 +66,19 @@ startGame.addEventListener('click', (e) => {
             if (orient.type === 'landscape-primary') {
                 turn.style.display = 'none';
                 mainPage.style.display = 'none';
-                InitApp();
+                canvas.style.width = '100%';
+                canvas.style.height = '100%';
+                canvas.width = windowW;
+                canvas.height = windowH;
 
                 fullScreen(canvas);
-            } else if (orient.type === 'portrait-primary') {
-                InitApp();
+
+            }
+            else if (orient.type === 'portrait-primary') {
+                canvas.style.width = '100%';
+                canvas.style.height = '100%';
+                canvas.width = windowW;
+                canvas.height = windowH;
             }
         });
     }
@@ -76,7 +86,6 @@ startGame.addEventListener('click', (e) => {
 
 let widthOfCan = canvas.width;
 let heightOfCan = canvas.height;
-
 // let stateOfGame = 0;
 let boxX = widthOfCan / 25;
 let boxY = heightOfCan / 25;
@@ -472,9 +481,11 @@ function drawGame() {
     eatTail(newHead, snake.head);
     snake.head.unshift(newHead);
 }
+
 function vibr(s) {
     navigator.vibrate(s);
 }
+
 let timer = setInterval(drawGame, 80);
 
 window.onload = function () {
