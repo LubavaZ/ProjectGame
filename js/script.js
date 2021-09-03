@@ -19,8 +19,8 @@ function InitApp() {
         container.style.position = 'unset';
         container.style.margin = 0;
         canvas.style.transform = 'none';
-        // canvas.style.width = '100%';
-        // canvas.style.height = '100%';
+        canvas.style.width = '100%';
+        canvas.style.height = '100%';
         canvas.width = windowW;
         canvas.height = windowH;
     }
