@@ -28,7 +28,7 @@
     margin-top: -35px;
     margin-left: -35px;
     text-align: center;
-    animation: preloader-rotate 2s infinite linear;
+    animation: preloader-rotate 1.5s infinite linear;
 }
 
 @keyframes preloader-rotate {
@@ -48,27 +48,7 @@
 
 /* конец стилей для прелоадера */
 
-/* предупреждение о развороте экрана */
-
-#turnScreen {
-    position: absolute;
-    width: 100vw;
-    height: 100vh;
-    display: none;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background: rgba(32, 32, 32, 1);
-    z-index: 3;
-}
-
-#turnScreen p {
-    font-size: 24px;
-    text-align: center;
-    color: #eeacca;
-}
-
-.menu {
+#menu {
     position: absolute;
     width: 100vw;
     height: 100vh;
@@ -78,6 +58,9 @@
     align-items: center;
     background: rgba(32, 32, 32, 1);
     z-index: 2;
+    opacity: 1;
+    left: 0;
+    transition: all ease-in-out 1.5s;
 }
 
 @keyframes AnimationOfTitle {
@@ -89,25 +72,24 @@
     }
 }
 
-.menu h1 {
+#menu h1 {
     font-size: 5vw;
     text-align: center;
     text-transform: uppercase;
     animation: AnimationOfTitle 2.5s infinite;
 }
 
-.menu .title_shadow {
+#menu .title_shadow {
     color: #e0dfdc;
-    /* background-color: #202020; */
     letter-spacing: .1em;
     text-shadow: 0 -1px 0 #fff, 0 1px 0 #2e2e2e, 0 2px 0 #2c2c2c, 0 3px 0 #2a2a2a, 0 4px 0 #282828, 0 5px 0 #262626, 0 6px 0 #242424, 0 7px 0 #222, 0 8px 0 #202020, 0 9px 0 #1e1e1e, 0 10px 0 #1c1c1c, 0 11px 0 #1a1a1a, 0 12px 0 #181818, 0 13px 0 #161616, 0 14px 0 #141414, 0 15px 0 #121212, 0 22px 30px rgba(0, 0, 0, 0.9);
 }
 
-.menu li {
+#menu li {
     margin-bottom: 15px;
 }
 
-.menu li button {
+#menu li button {
     background: #ED237F;
     border: 5px dotted #202020;
     border-radius: 10px;
@@ -117,7 +99,7 @@
     transition: all .5s ease-out;
 }
 
-.menu li button:hover {
+#menu li button:hover {
     cursor: pointer;
     background: #202020;
     border: 5px dotted #ED237F;
@@ -125,19 +107,19 @@
 }
 
 @media (max-width: 800px) {
-    .menu h1 {
+    #menu h1 {
         font-size: 7vw;
     }
-    .menu li button {
+    #menu li button {
         font-size: 3vw;
         width: 35vw;
     }
 }
 
-.backgr {
+#backgr {
     background: url(../images/green.jpg);
     width: 100%;
-    height: 100%;
+    height: 100vh;
 }
 
 #CONTAINER {
@@ -187,4 +169,140 @@ canvas {
     height: 7vw;
     left: 0;
     top: 0;
+}
+
+/* ПРАВИЛА ИГРЫ */
+
+#rules, #records, #nameGamer, #additional-menu {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    padding: 0 5vw;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    background: #eeacca;
+    z-index: 2;
+    color: rgba(32, 32, 32, 1);
+}
+
+#rules {
+    display: flex;
+    opacity: 0;
+    top: -105vh;
+    transition: all ease-in-out 1.5s;
+}
+
+#rules h2, #records h2, #additional-menu h2 {
+    font-size: 4vw;
+}
+
+#rules h3 {
+    margin-top: 10px;
+    font-size: 3vw;
+}
+
+#rules p, #additional-menu p {
+    font-size: 2vw;
+    margin-top: 5vh;
+}
+
+.close {
+    position: absolute;
+    top: 2vh;
+    right: 2vw;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+}
+
+/* ТАБЛИЦА РЕКОРДОВ */
+
+#records {
+    display: flex;
+    opacity: 0;
+    top: -105vh;
+    transition: all ease-in-out 1.5s;
+}
+
+#records-content {
+    width: 60vw;
+    margin: 5vh auto;
+    font-size: 3vh;
+}
+
+/* ИМЯ ИГРОКА */
+
+#nameGamer {
+    display: flex;
+    opacity: 0;
+    top: -105vh;
+    transition: all ease-in-out 1s;
+}
+
+#nameGamer input, #recordsButton2 {
+    margin: 5vh auto 0;
+    width: 40vw;
+    background: #202020;
+    border: 5px dotted #eeacca;
+    border-radius: 10px;
+    font-size: 1.5vw;
+    height: 10vh;
+    color: white;
+    transition: all .5s ease-out;
+    cursor: pointer;
+}
+
+#hiddenNameGamer {
+    display: block;
+}
+
+#thanks {
+    display: none;
+    padding: 0 5vw;
+}
+
+#thanks p {
+    font-size: 3vh;
+}
+
+/* ДОПОЛНИТЕЛЬНОЕ МЕНЮ ДЛЯ ПАУЗЫ */
+
+#additional-menu {
+    display: flex;
+    opacity: 0;
+    left: -105vw;
+    transition: all ease-in-out 0.5s;
+    position: absolute;
+    width: 100vw;
+    height: 70vh;
+    padding: 0 5vw;
+    transform: translateY(15vh);
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    background: #eeacca;
+    z-index: 2;
+    color: rgba(32, 32, 32, 1);
+}
+
+#additional-menu button {
+    margin: 5vh auto;
+    background: #202020;
+    border: 5px dotted #eeacca;
+    border-radius: 10px;
+    font-size: 1.5vw;
+    width: 15vw;
+    height: 10vh;
+    color: white;
+    transition: all .5s ease-out;
+}
+
+#additional-menu button:hover, #nameGamer input:hover, #recordsButton2:hover {
+    cursor: pointer;
+    background: #eeacca;
+    border: 5px dotted #202020;
+    color: #202020;
 }

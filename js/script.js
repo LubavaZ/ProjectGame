@@ -1,4 +1,36 @@
 'use strict'
+
+export { score };
+import StorageRecords from "./storage.js";
+
+let AJAXStor = new StorageRecords('ZHYHALKA_RECORDS');
+//КНОПКИ
+let startGame = document.getElementById('startGame');//кнопка с главной страницы
+startGame.addEventListener('touchstart', vibr(1000));
+let rulesButton = document.getElementById('rulesButton');
+let recordsButton = document.getElementById('recordsButton');
+let recordsButton2 = document.getElementById('recordsButton2');
+let rulesCloseButton = document.getElementById('rulesClose'); //кнопка для закрытия страницы с правилами игры
+let recordsCloseButton = document.getElementById('recordsClose'); //кнопка для закрытия страницы с таблицей рекордов
+let backToMainPageButton = document.getElementById('backToMain');//кнопка выхода из игры и возврата на главную страницу
+let buttonRemember = document.getElementById('REMEMBER'); //кнопка запомнить для страницы запроса имени игрока
+let playMini = document.querySelector('.PLAY'); //кнопки для мини-меню
+let pauseMini = document.querySelector('.PAUSE');
+let soundMini = document.querySelector('.SOUND');
+let playSide = document.querySelector('.play'); //кнопки верхнего меню для больших экранов
+let pauseSide = document.querySelector('.pause');
+let soundSide = document.querySelector('.sound');
+//СТРАНИЦЫ
+let mainPage = document.getElementById('menu');//главная страница
+let gamePage = document.getElementById('backgr');
+let nameGamerPage = document.getElementById('nameGamer');//страница запроса имени игрока
+let recordsPage = document.getElementById('records');//страница таблицы рекордов
+let rulesPage = document.getElementById('rules');//страница правил игры
+let additionalMenuPage = document.getElementById('additional-menu'); //страница дополнительного меню во время игровой паузы
+//БЛОКИ
+let thanks = document.getElementById('thanks');
+let hiddenNameGamer = document.getElementById('hiddenNameGamer');
+
 const container = document.getElementById('CONTAINER');
 const canvas = document.getElementById('GAME');
 const ctx = canvas.getContext('2d');
@@ -25,24 +57,16 @@ function InitApp() {
     }
 }
 
-let startGame = document.getElementById('startGame');
-
-startGame.addEventListener('touchstart', vibr(1000));
-startGame.addEventListener('click', (e) => {
-
-    let mainPage = document.querySelector('.menu');
-    mainPage.style.display = 'none';
-    InitApp();
-
-});
 
 let widthOfCan = canvas.width;
 let heightOfCan = canvas.height;
-// let stateOfGame = 0;
 let boxX = widthOfCan / 25;
 let boxY = heightOfCan / 25;
+let speedX = widthOfCan / 25;
+let speedY = heightOfCan / 25;
 let sizeImg = 32;
 let score = 0;
+let stateOfGame;
 
 const appleImg = new Image();
 appleImg.src = 'images/apple.png';
@@ -60,10 +84,6 @@ const soundOfBomb = new Audio();
 soundOfBomb.src = 'sounds/soundOfBomb.mp3';
 
 //кнопки для мини-меню
-let playMini = document.querySelector('.PLAY');
-let pauseMini = document.querySelector('.PAUSE');
-let soundMini = document.querySelector('.SOUND');
-
 placeMini(playMini, boxX, boxY);
 placeMini(pauseMini, boxX, boxY);
 placeMini(soundMini, boxX, boxY);
@@ -78,6 +98,7 @@ function placeMini(buttMini, w, h) {
         buttMini.style.height = h * 2 + 'px';
         buttMini.style.top = 0;
         buttMini.style.border = 'none';
+        buttMini.style.outline = 'none';
         buttMini.style.background = 'transparent';
         if (buttMini === playMini) {
             buttMini.style.right = w / 2 + 'px';
@@ -107,10 +128,7 @@ function sizeSVG(elem) {
     elem.style.top = 0;
     elem.style.left = 0;
 }
-//кнопки бокового меню для больших экранов
-let playSide = document.querySelector('.play');
-let pauseSide = document.querySelector('.pause');
-let soundSide = document.querySelector('.sound');
+//кнопки верхнего меню для больших экранов
 let shift = 7;
 
 placeSide(playSide, shift);
@@ -127,6 +145,7 @@ function placeSide(buttSide, s) {
         buttSide.style.height = s + 'vw';
         buttSide.style.top = '0.5vw';
         buttSide.style.border = 'none';
+        buttSide.style.outline = 'none';
         buttSide.style.background = 'transparent';
         if (buttSide === playSide) {
             buttSide.style.left = s * 4.7 + 'vw';
@@ -205,7 +224,6 @@ class Snake {
             ctx.shadowBlur = 2;
             ctx.fillStyle = c(this);
             ctx.shadowColor = "rgba(0, 0, 0, .5)";
-            // ctx.fillRect(this.head[i].x, this.head[i].y, box, box);
             ctx.arc(this.head[i].x, this.head[i].y, sizeImg / 2, 0, Math.PI * 2, false);
             ctx.fill();
             ctx.closePath();
@@ -266,7 +284,7 @@ function wall() {
 function eatTail(head, body) {
     for (let elem of body) {
         if (head.x == elem.x && head.y == elem.y) {
-            alert('game over');
+            stateOfGame = 2;
         }
     }
 }
@@ -274,9 +292,34 @@ function eatTail(head, body) {
 function randomDiap(min, max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
+
+//СОСТОЯНИЕ ИГРЫ
+function state() {
+    if (stateOfGame === 0) {
+        boxX = widthOfCan / 25;
+        boxY = heightOfCan / 25;
+        snake.head = [];
+        snake.head[0] = {
+            x: 5 * boxX,
+            y: 5 * boxY,
+        }
+        score = 0;
+    } else if (stateOfGame === 1) { //змейка может двигаться
+        speedX = widthOfCan / 25;
+        speedY = heightOfCan / 25;
+    } else if (stateOfGame === 2) { //конец игры
+        speedX = 0;
+        speedY = 0;
+    } else if (stateOfGame === 3) { //пауза в игре
+        speedX = 0;
+        speedY = 0;
+    }
+}
 //УПРАВЛЕНИЕ НА КЛАВИАТУРЕ
 let direction;
 document.addEventListener('keydown', function (e) {
+    stateOfGame = 1;
+    state();
     if (e.keyCode == 37 && direction != 'right') {
         direction = 'left';
     } else if (e.keyCode == 38 && direction != 'down') {
@@ -294,10 +337,26 @@ let touchPosition = null;
 const sensitivity = 10;
 
 
-canvas.addEventListener("touchstart", function (e) { TouchStart(e); });
-canvas.addEventListener("touchmove", function (e) { TouchMove(e); });
-canvas.addEventListener("touchend", function (e) { TouchEnd(e); });
-canvas.addEventListener("touchcancel", function (e) { TouchEnd(e); });
+canvas.addEventListener("touchstart", function (e) {
+    stateOfGame = 1;
+    state();
+    TouchStart(e);
+});
+canvas.addEventListener("touchmove", function (e) {
+    stateOfGame = 1;
+    state();
+    TouchMove(e);
+});
+canvas.addEventListener("touchend", function (e) {
+    stateOfGame = 1;
+    state();
+    TouchEnd(e);
+});
+canvas.addEventListener("touchcancel", function (e) {
+    stateOfGame = 1;
+    state();
+    TouchEnd(e);
+});
 
 function TouchStart(e) {
     //Получаем текущую позицию касания
@@ -403,9 +462,9 @@ function drawGame() {
         if (snake.head.length > 1) {
             snake.head.splice(snake.head.length - 2, 2);
         } else {
-            // stateOfGame  = 'game over';
-            // alert('game over');
-            clearInterval(timer);
+            stateOfGame = 2;
+            state();
+            switchToState({ pagename: 'GAMEOVER' });
         }
     }
     else {
@@ -414,16 +473,17 @@ function drawGame() {
 
     //столкновение с основными стенами
     if (snakeX < boxX * 1.5 || snakeX > boxX * 23.5 || snakeY < boxY * 2.5 || snakeY > boxY * 23.5) {
-        // alert('game over');
         vibr(1000);
-        clearInterval(timer);
+        stateOfGame = 2;
+        state();
+        switchToState({ pagename: 'GAMEOVER' });
     }
 
 
-    if (direction == 'left' || direction == "Swipe Left") { snakeX -= boxX / 2 };
-    if (direction == 'right' || direction == "Swipe Right") { snakeX += boxX / 2 };
-    if (direction == 'up' || direction == "Swipe Up") { snakeY -= boxY / 2 };
-    if (direction == 'down' || direction == "Swipe Down") { snakeY += boxY / 2 };
+    if (direction == 'left' || direction == "Swipe Left") { snakeX -= speedX / 2 };
+    if (direction == 'right' || direction == "Swipe Right") { snakeX += speedX / 2 };
+    if (direction == 'up' || direction == "Swipe Up") { snakeY -= speedY / 2 };
+    if (direction == 'down' || direction == "Swipe Down") { snakeY += speedY / 2 };
 
     let newHead = {
         x: snakeX,
@@ -440,10 +500,133 @@ function vibr(s) {
 
 let timer = setInterval(drawGame, 80);
 
-window.onload = function () {
-    document.body.classList.add('loaded_hiding');
-    window.setTimeout(function () {
-        document.body.classList.add('loaded');
-        document.body.classList.remove('loaded_hiding');
-    }, 2000);
+// SPA
+window.onhashchange = switchToStateFromURLHash;
+
+let SPAState = {};
+
+function switchToStateFromURLHash() {
+    let URLHash = window.location.hash;
+    var stateStr = URLHash.substr(1);
+
+    if (stateStr != "") {
+        var parts = stateStr.split("_")
+        SPAState = { pagename: parts[0] };
+    } else {
+        SPAState = { pagename: 'MAIN' };
+    }
+
+    switch (SPAState.pagename) {
+        case 'MAIN':
+            mainPage.style.opacity = '1';
+            mainPage.style.left = '0';
+            rulesPage.style.opacity = '0';
+            rulesPage.style.top = '-105vh';
+            recordsPage.style.opacity = '0';
+            recordsPage.style.top = '-105vh';
+            additionalMenuPage.style.opacity = '0';
+            additionalMenuPage.style.left = '-105vw';
+            break;
+        case 'GAME':
+            mainPage.style.opacity = '0';
+            mainPage.style.left = '105vw';
+            gamePage.style.display = 'block';
+            break;
+        case 'RULES':
+            mainPage.style.opacity = '1';
+            mainPage.style.left = '0';
+            gamePage.style.display = 'none';
+            recordsPage.style.opacity = '0';
+            recordsPage.style.top = '-105vh';
+            rulesPage.style.opacity = '1';
+            rulesPage.style.top = '0';
+            break;
+        case 'RECORDS':
+            mainPage.style.opacity = '1';
+            mainPage.style.left = '0';
+            gamePage.style.display = 'none';
+            rulesPage.style.opacity = '0';
+            rulesPage.style.top = '-105vh';
+            recordsPage.style.opacity = '1';
+            recordsPage.style.top = '0';
+            nameGamerPage.style.opacity = '0';
+            nameGamerPage.style.top = '-105vh';
+            AJAXStor.getInfo();
+            break;
+        case 'PAUSE':
+            mainPage.style.opacity = '0';
+            mainPage.style.left = '105vw';
+            gamePage.style.display = 'block';
+            additionalMenuPage.style.opacity = '1';
+            additionalMenuPage.style.left = '0';
+            break;
+        case 'CONTINUE':
+            gamePage.style.display = 'block';
+            additionalMenuPage.style.opacity = '0';
+            additionalMenuPage.style.left = '-105vw';
+            break;
+        case 'GAMEOVER':
+            gamePage.style.display = 'block';
+            nameGamerPage.style.top = '0';
+            nameGamerPage.style.opacity = '1';
+            break;
+    }
 }
+
+
+function switchToState(newState) {
+    var stateStr = newState.pagename;
+    location.hash = stateStr;
+}
+
+startGame.onclick = function () {
+    switchToState({ pagename: 'GAME' });
+    stateOfGame = 0;
+    state();
+}
+
+rulesButton.onclick = function () {
+    switchToState({ pagename: 'RULES' });
+}
+rulesCloseButton.onclick = function () {
+    switchToState({ pagename: 'MAIN' });
+}
+
+recordsButton.onclick = function () {
+    switchToState({ pagename: 'RECORDS' });
+}
+recordsCloseButton.onclick = function () {
+    switchToState({ pagename: 'MAIN' });
+}
+
+backToMainPageButton.onclick = function () {
+    switchToState({ pagename: 'MAIN' });
+    stateOfGame = 2;
+    state();
+}
+
+pauseSide.onclick = function () {
+    switchToState({ pagename: 'PAUSE' });
+    stateOfGame = 3;
+    state();
+}
+
+playSide.onclick = function () {
+    switchToState({ pagename: 'CONTINUE' });
+}
+
+pauseMini.onclick = function () {
+    switchToState({ pagename: 'PAUSE' });
+}
+
+buttonRemember.onclick = function () {
+    let bestName = document.getElementById('NAME').value;
+    AJAXStor.updateStorage(bestName, score);
+    hiddenNameGamer.style.display = 'none';
+    thanks.style.display = 'block';
+}
+recordsButton2.onclick = function () {
+    switchToState({ pagename: 'RECORDS' });
+}
+
+switchToStateFromURLHash();
