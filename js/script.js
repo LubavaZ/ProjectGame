@@ -530,6 +530,7 @@ function switchToStateFromURLHash() {
         case 'GAME':
             mainPage.style.opacity = '0';
             mainPage.style.left = '105vw';
+            mainPage.style.display = 'none';
             gamePage.style.display = 'block';
             break;
         case 'RULES':
@@ -556,6 +557,7 @@ function switchToStateFromURLHash() {
         case 'PAUSE':
             mainPage.style.opacity = '0';
             mainPage.style.left = '105vw';
+            mainPage.style.display = 'none';
             gamePage.style.display = 'block';
             additionalMenuPage.style.opacity = '1';
             additionalMenuPage.style.left = '0';
