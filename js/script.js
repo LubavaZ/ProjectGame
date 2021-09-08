@@ -579,44 +579,53 @@ function switchToState(newState) {
     location.hash = stateStr;
 }
 
-startGame.onclick = function () {
+startGame.onclick = function (e) {
     switchToState({ pagename: 'GAME' });
     stateOfGame = 0;
     state();
+    e.preventDefault();
 }
 
-rulesButton.onclick = function () {
+rulesButton.onclick = function (e) {
     switchToState({ pagename: 'RULES' });
+    e.preventDefault();
 }
-rulesCloseButton.onclick = function () {
+rulesCloseButton.onclick = function (e) {
     switchToState({ pagename: 'MAIN' });
+    e.preventDefault();
 }
 
-recordsButton.onclick = function () {
+recordsButton.onclick = function (e) {
     switchToState({ pagename: 'RECORDS' });
+    e.preventDefault();
 }
-recordsCloseButton.onclick = function () {
+recordsCloseButton.onclick = function (e) {
     switchToState({ pagename: 'MAIN' });
+    e.preventDefault();
 }
 
-backToMainPageButton.onclick = function () {
+backToMainPageButton.onclick = function (e) {
     switchToState({ pagename: 'MAIN' });
     stateOfGame = 2;
     state();
+    e.preventDefault();
 }
 
-pauseSide.onclick = function () {
+pauseSide.onclick = function (e) {
     switchToState({ pagename: 'PAUSE' });
     stateOfGame = 3;
     state();
+    e.preventDefault();
 }
 
-playSide.onclick = function () {
+playSide.onclick = function (e) {
     switchToState({ pagename: 'CONTINUE' });
+    e.preventDefault();
 }
 
-pauseMini.onclick = function () {
+pauseMini.onclick = function (e) {
     switchToState({ pagename: 'PAUSE' });
+    e.preventDefault();
 }
 
 buttonRemember.onclick = function () {
@@ -625,8 +634,9 @@ buttonRemember.onclick = function () {
     hiddenNameGamer.style.display = 'none';
     thanks.style.display = 'block';
 }
-recordsButton2.onclick = function () {
+recordsButton2.onclick = function (e) {
     switchToState({ pagename: 'RECORDS' });
+    e.preventDefault();
 }
 
 switchToStateFromURLHash();
