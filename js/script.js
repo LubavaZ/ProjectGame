@@ -298,9 +298,8 @@ function state() {
         speedX = widthOfCan / 25;
         speedY = heightOfCan / 25;
     } else if (stateOfGame === 2) { //конец игры
-        speedX = 0.001;
-        speedY = 0.001;
-        vibr(500);
+        speedX = 0.1;
+        speedY = 0.1;
     } else if (stateOfGame === 3) { //пауза в игре
         speedX = 0;
         speedY = 0;
@@ -446,7 +445,7 @@ function drawGame() {
     else if (snake.collision(bomb.xBomb, bomb.yBomb, snakeX, snakeY) === true) {
         score--;
         soundOfBomb.play();
-        vibr(500);
+        vibr(300);
         do {
             bomb.xBomb = randomDiap(2, 22) * boxX;
             bomb.yBomb = randomDiap(2, 21) * boxY;
@@ -465,6 +464,7 @@ function drawGame() {
 
     //столкновение с основными стенами
     if (snakeX < boxX * 1.5 || snakeX > boxX * 23.5 || snakeY < boxY * 2.5 || snakeY > boxY * 23.5) {
+        vibr(500);
         stateOfGame = 2;
         state();
         switchToState({ pagename: 'GAMEOVER' });
@@ -488,6 +488,7 @@ function drawGame() {
 function eatTail(head, body) {
     for (let elem of body) {
         if (head.x == elem.x && head.y == elem.y) {
+            vibr(500);
             stateOfGame = 2;
             state();
             switchToState({ pagename: 'GAMEOVER' });
