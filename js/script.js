@@ -305,9 +305,6 @@ function state() {
         speedY = 0;
     }
 }
-if (stateOfGame === 2) {
-    vibr(500);
-}
 //УПРАВЛЕНИЕ НА КЛАВИАТУРЕ
 let direction;
 document.addEventListener('keydown', function (e) {
@@ -456,6 +453,7 @@ function drawGame() {
         if (snake.head.length > 1) {
             snake.head.splice(snake.head.length - 2, 2);
         } else {
+            vibr(500);
             stateOfGame = 2;
             state();
             switchToState({ pagename: 'GAMEOVER' });
