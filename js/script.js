@@ -6,7 +6,7 @@ import StorageRecords from "./storage.js";
 let AJAXStor = new StorageRecords('ZHYHALKA_RECORDS');
 //КНОПКИ
 let startGame = document.getElementById('startGame');//кнопка с главной страницы
-startGame.addEventListener('touchstart', vibr(1000));
+startGame.addEventListener('touchstart', vibr(500));
 let rulesButton = document.getElementById('rulesButton');
 let recordsButton = document.getElementById('recordsButton');
 let recordsButton2 = document.getElementById('recordsButton2');
@@ -20,6 +20,13 @@ let soundMini = document.querySelector('.SOUND');
 let playSide = document.querySelector('.play'); //кнопки верхнего меню для больших экранов
 let pauseSide = document.querySelector('.pause');
 let soundSide = document.querySelector('.sound');
+//SVG
+let sONSVGside = document.getElementById('sONside');
+let sOFFSVGside = document.getElementById('sOFFside');
+let soundONSVG = document.getElementById('sON');
+let soundOFFSVG = document.getElementById('sOFF');
+let playMiniSVG = document.getElementById('playMiniSVG');
+let pauseMiniSVG = document.getElementById('pauseMiniSVG');
 //СТРАНИЦЫ
 let mainPage = document.getElementById('menu');//главная страница
 let gamePage = document.getElementById('backgr');
@@ -67,6 +74,7 @@ let speedY = heightOfCan / 25;
 let sizeImg = 32;
 let score = 0;
 let stateOfGame;
+let musicOn = false;
 
 const appleImg = new Image();
 appleImg.src = 'images/apple.png';
@@ -77,7 +85,6 @@ bombImg.src = 'images/bomb.png'
 
 const soundOfGame = new Audio();
 soundOfGame.src = '../sounds/forGame.mp3';
-// soundOfGame.play();
 const soundOfFood = new Audio();
 soundOfFood.src = 'sounds/soundOfFood.mp3';
 const soundOfBomb = new Audio();
@@ -103,19 +110,14 @@ function placeMini(buttMini, w, h) {
         if (buttMini === playMini) {
             buttMini.style.right = w / 2 + 'px';
         } else if (buttMini === pauseMini) {
-            buttMini.style.right = w * 2.5 + 'px';
+            buttMini.style.right = w * 3 + 'px';
         } else if (buttMini === soundMini) {
-            buttMini.style.right = w * 4.5 + 'px';
+            buttMini.style.right = w * 5.5 + 'px';
         }
     }
 }
 
 //позиционирование svg кнопок мини-меню
-let soundONSVG = document.getElementById('sON');
-let soundOFFSVG = document.getElementById('sOFF');
-let playMiniSVG = document.getElementById('playMiniSVG');
-let pauseMiniSVG = document.getElementById('pauseMiniSVG');
-
 sizeSVG(soundONSVG);
 sizeSVG(soundOFFSVG);
 sizeSVG(playMiniSVG);
@@ -473,7 +475,7 @@ function drawGame() {
 
     //столкновение с основными стенами
     if (snakeX < boxX * 1.5 || snakeX > boxX * 23.5 || snakeY < boxY * 2.5 || snakeY > boxY * 23.5) {
-        vibr(1000);
+        vibr(500);
         stateOfGame = 2;
         state();
         switchToState({ pagename: 'GAMEOVER' });
@@ -518,8 +520,8 @@ function switchToStateFromURLHash() {
 
     switch (SPAState.pagename) {
         case 'MAIN':
-            mainPage.style.opacity = '1';
-            mainPage.style.left = '0';
+            mainPage.style.display = 'flex';
+            gamePage.style.display = 'none';
             rulesPage.style.opacity = '0';
             rulesPage.style.top = '-105vh';
             recordsPage.style.opacity = '0';
@@ -528,14 +530,11 @@ function switchToStateFromURLHash() {
             additionalMenuPage.style.left = '-105vw';
             break;
         case 'GAME':
-            mainPage.style.opacity = '0';
-            mainPage.style.left = '105vw';
             mainPage.style.display = 'none';
             gamePage.style.display = 'block';
             break;
         case 'RULES':
-            mainPage.style.opacity = '1';
-            mainPage.style.left = '0';
+            mainPage.style.display = 'flex';
             gamePage.style.display = 'none';
             recordsPage.style.opacity = '0';
             recordsPage.style.top = '-105vh';
@@ -543,9 +542,8 @@ function switchToStateFromURLHash() {
             rulesPage.style.top = '0';
             break;
         case 'RECORDS':
-            mainPage.style.opacity = '1';
-            mainPage.style.left = '0';
-            gamePage.style.display = 'none';
+            mainPage.style.display = 'flex';
+            gamePage.style.display = 'block';
             rulesPage.style.opacity = '0';
             rulesPage.style.top = '-105vh';
             recordsPage.style.opacity = '1';
@@ -555,8 +553,6 @@ function switchToStateFromURLHash() {
             AJAXStor.getInfo();
             break;
         case 'PAUSE':
-            mainPage.style.opacity = '0';
-            mainPage.style.left = '105vw';
             mainPage.style.display = 'none';
             gamePage.style.display = 'block';
             additionalMenuPage.style.opacity = '1';
@@ -571,6 +567,8 @@ function switchToStateFromURLHash() {
             gamePage.style.display = 'block';
             nameGamerPage.style.top = '0';
             nameGamerPage.style.opacity = '1';
+            soundOfGame.pause();
+            musicOn = false;
             break;
     }
 }
@@ -581,64 +579,101 @@ function switchToState(newState) {
     location.hash = stateStr;
 }
 
-startGame.onclick = function (e) {
+startGame.onclick = function () {
     switchToState({ pagename: 'GAME' });
     stateOfGame = 0;
     state();
-    e.preventDefault();
+    soundOfGame.play();
+    soundOfGame.currentTime = 0;
+    musicOn = true;
 }
 
-rulesButton.onclick = function (e) {
+rulesButton.onclick = function () {
     switchToState({ pagename: 'RULES' });
-    e.preventDefault();
 }
-rulesCloseButton.onclick = function (e) {
+rulesCloseButton.onclick = function () {
     switchToState({ pagename: 'MAIN' });
-    e.preventDefault();
 }
 
-recordsButton.onclick = function (e) {
+recordsButton.onclick = function () {
     switchToState({ pagename: 'RECORDS' });
-    e.preventDefault();
 }
-recordsCloseButton.onclick = function (e) {
+recordsCloseButton.onclick = function () {
     switchToState({ pagename: 'MAIN' });
-    e.preventDefault();
 }
 
-backToMainPageButton.onclick = function (e) {
+backToMainPageButton.onclick = function () {
     switchToState({ pagename: 'MAIN' });
     stateOfGame = 2;
     state();
-    e.preventDefault();
+    soundOfGame.pause();
+    musicOn = false;
 }
 
-pauseSide.onclick = function (e) {
+pauseSide.onclick = function () {
     switchToState({ pagename: 'PAUSE' });
     stateOfGame = 3;
     state();
-    e.preventDefault();
 }
 
-playSide.onclick = function (e) {
+playSide.onclick = function () {
     switchToState({ pagename: 'CONTINUE' });
-    e.preventDefault();
 }
 
-pauseMini.onclick = function (e) {
-    switchToState({ pagename: 'PAUSE' });
-    e.preventDefault();
+soundSide.onclick = function () {
+    if (musicOn) {
+        soundOfGame.pause();
+        musicOn = false;
+        sONSVGside.style.opacity = '0';
+        sOFFSVGside.style.opacity = '1';
+    } else {
+        soundOfGame.currentTime = 0;
+        soundOfGame.play();
+        musicOn = true;
+        sONSVGside.style.opacity = '1';
+        sOFFSVGside.style.opacity = '0';
+    }
 }
 
+pauseMini.onclick = function () {
+    switchToState({ pagename: 'PAUSE' })
+}
+
+playMini.onclick = function () {
+    switchToState({ pagename: 'CONTINUE' });
+}
+soundMini.onclick = function () {
+    if (musicOn) {
+        soundOfGame.pause();
+        musicOn = false;
+        soundONSVG.style.opacity = '0';
+        soundOFFSVG.style.opacity = '1';
+    } else {
+        soundOfGame.currentTime = 0;
+        soundOfGame.play();
+        musicOn = true;
+        soundONSVG.style.opacity = '1';
+        soundOFFSVG.style.opacity = '0';
+    }
+}
 buttonRemember.onclick = function () {
     let bestName = document.getElementById('NAME').value;
     AJAXStor.updateStorage(bestName, score);
     hiddenNameGamer.style.display = 'none';
     thanks.style.display = 'block';
 }
-recordsButton2.onclick = function (e) {
+recordsButton2.onclick = function () {
+    stateOfGame = 0;
+    state();
     switchToState({ pagename: 'RECORDS' });
-    e.preventDefault();
 }
 
 switchToStateFromURLHash();
+
+//ПРЕДУПРЕЖДЕНИЕ ПРИ ПОКИДАНИИ САЙТА
+window.onbeforeunload = exit;
+
+function exit(e) {
+    if (stateOfGame === 1 || stateOfGame === 3)
+        e.returnValue = 'А у вас есть несохранённые изменения!';
+};

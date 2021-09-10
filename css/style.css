@@ -58,9 +58,6 @@
     align-items: center;
     background: rgba(32, 32, 32, 1);
     z-index: 2;
-    opacity: 1;
-    left: 0;
-    transition: all ease-in-out 1.5s;
 }
 
 @keyframes AnimationOfTitle {
@@ -106,20 +103,10 @@
     color: white;
 }
 
-@media (max-width: 800px) {
-    #menu h1 {
-        font-size: 7vw;
-    }
-    #menu li button {
-        font-size: 3vw;
-        width: 35vw;
-    }
-}
-
 #backgr {
     background: url(../images/green.jpg);
     width: 100%;
-    height: 100%;
+    height: 100vh;
 }
 
 #CONTAINER {
@@ -149,18 +136,12 @@ canvas {
 
 #sON, #sONside {
     opacity: 1;
+    transition: all ease-out .5s;
 }
 
 #sOFF, #sOFFside {
     opacity: 0;
-}
-
-#sON:hover, #sONside:hover {
-    opacity: 0;
-}
-
-#sOFF:hover, #sOFFside:hover {
-    opacity: 1;
+    transition: all ease-out .5s;
 }
 
 #sONside, #sOFFside {
@@ -204,7 +185,12 @@ canvas {
 
 #rules p, #additional-menu p {
     font-size: 2vw;
-    margin-top: 5vh;
+    margin-bottom: 4vh;
+}
+
+#rules img {
+    display: inline-block;
+    width: 4vw;
 }
 
 .close {
@@ -305,4 +291,44 @@ canvas {
     background: #eeacca;
     border: 5px dotted #202020;
     color: #202020;
+}
+
+@media (max-width: 800px) {
+    #backgr {
+        height: 100%;
+    }
+    #menu h1 {
+        font-size: 6vw;
+    }
+    #menu li button {
+        font-size: 3vw;
+        width: 35vw;
+    }
+    #rules p, #additional-menu p {
+        margin-top: 3vw;
+    }
+    #records-content {
+        width: 90vw;
+        font-size: 3vh;
+    }
+    #additional-menu button {
+        margin: 0 auto;
+        font-size: 3vw;
+        width: 35vw;
+    }
+    #additional-menu h2 {
+        font-size: 6vw;
+    }
+    #additional-menu p {
+        font-size: 4vw;
+    }
+    #nameGamer input, #recordsButton2 {
+        font-size: 4vw;
+    }
+}
+
+@media (max-width: 500px) {
+    #records-content {
+        font-size: 2vh;
+    }
 }
