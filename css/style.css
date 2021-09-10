@@ -237,7 +237,6 @@ canvas {
     height: 10vh;
     color: white;
     transition: all .5s ease-out;
-    cursor: pointer;
 }
 
 #nameGamer input:focus, #NAME:focus, #recordsButton2:focus {
@@ -289,7 +288,7 @@ canvas {
     transition: all .5s ease-out;
 }
 
-#additional-menu button:hover, #nameGamer input:hover, #recordsButton2:hover {
+#additional-menu button:hover, #nameGamer input:hover:not(#NAME), #recordsButton2:hover {
     cursor: pointer;
     background: #eeacca;
     border: 5px dotted #202020;

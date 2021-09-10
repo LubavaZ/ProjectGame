@@ -452,7 +452,7 @@ function drawGame() {
         do {
             bomb.xBomb = randomDiap(2, 22) * boxX;
             bomb.yBomb = randomDiap(2, 21) * boxY;
-        } while ((bomb.xBomb === food.xApple && bomb.yBomb === food.yApple) || (bomb.xBomb === food.xBanana && bomb.yBomb === food.yBanana) || (bomb.xBomb >= snakeX - sizeImg && bomb.xBomb <= snakeX + sizeImg && bomb.yBomb >= snakeY - sizeImg && bomb.yBomb <= snakeY + sizeImg));
+        } while ((bomb.xBomb === food.xApple && bomb.yBomb === food.yApple) || (bomb.xBomb === food.xBanana && bomb.yBomb === food.yBanana) || (bomb.xBomb >= snakeX - sizeImg * 2 && bomb.xBomb <= snakeX + sizeImg && bomb.yBomb >= snakeY - sizeImg * 2 && bomb.yBomb <= snakeY + sizeImg));
         if (snake.head.length > 1) {
             snake.head.splice(snake.head.length - 2, 2);
         } else {
