@@ -298,8 +298,8 @@ function state() {
         speedX = widthOfCan / 25;
         speedY = heightOfCan / 25;
     } else if (stateOfGame === 2) { //конец игры
-        speedX = 0;
-        speedY = 0;
+        speedX = 0.001;
+        speedY = 0.001;
         vibr(500);
     } else if (stateOfGame === 3) { //пауза в игре
         speedX = 0;
