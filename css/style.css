@@ -240,6 +240,10 @@ canvas {
     cursor: pointer;
 }
 
+#nameGamer input:focus, #NAME:focus, #recordsButton2:focus {
+    outline: none;
+}
+
 #hiddenNameGamer {
     display: block;
 }

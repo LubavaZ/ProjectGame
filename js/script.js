@@ -615,6 +615,8 @@ pauseSide.onclick = function () {
     switchToState({ pagename: 'PAUSE' });
     stateOfGame = 3;
     state();
+    soundOfGame.pause();
+    musicOn = false;
 }
 
 playSide.onclick = function () {
@@ -640,7 +642,9 @@ soundSide.onclick = function () {
 }
 
 pauseMini.onclick = function () {
-    switchToState({ pagename: 'PAUSE' })
+    switchToState({ pagename: 'PAUSE' });
+    stateOfGame = 3;
+    state();
     soundOfGame.pause();
     musicOn = false;
 }
