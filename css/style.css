@@ -172,8 +172,9 @@ canvas {
     transition: all ease-in-out 1.5s;
 }
 
-#rules h2, #records h2, #additional-menu h2 {
+#rules h2, #records h2, #additional-menu h2, #nameGamer h2 {
     font-size: 4vw;
+    margin-bottom: 2vh;
 }
 
 #rules h3 {
@@ -226,11 +227,11 @@ canvas {
     transition: all ease-in-out 1s;
 }
 
-#nameGamer input, #recordsButton2 {
+#nameGamer input, #NAME, #recordsButton2 {
     margin: 5vh auto 0;
     width: 40vw;
     background: #202020;
-    border: 5px dotted #eeacca;
+    border: 5px dotted #eeacac;
     border-radius: 10px;
     font-size: 1.5vw;
     height: 10vh;

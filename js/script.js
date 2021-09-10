@@ -193,8 +193,8 @@ class Snake {
     constructor() {
         this.head = [];
         this.head[0] = {
-            x: 5 * boxX,
-            y: 5 * boxY,
+            x: 10 * boxX,
+            y: 10 * boxY,
         }
         this.color = {
             first: '#ED237F',
@@ -290,8 +290,8 @@ function state() {
         boxY = heightOfCan / 25;
         snake.head = [];
         snake.head[0] = {
-            x: 5 * boxX,
-            y: 5 * boxY,
+            x: 10 * boxX,
+            y: 10 * boxY,
         }
         score = 0;
     } else if (stateOfGame === 1) { //змейка может двигаться
@@ -303,6 +303,8 @@ function state() {
     } else if (stateOfGame === 3) { //пауза в игре
         speedX = 0;
         speedY = 0;
+        soundOfGame.pause();
+        musicOn = false;
     }
 }
 //УПРАВЛЕНИЕ НА КЛАВИАТУРЕ
@@ -482,6 +484,7 @@ function drawGame() {
 
     eatTail(newHead, snake.head);
     snake.head.unshift(newHead);
+    console.log(stateOfGame);
 }
 //если змейка сталкивается с собственным телом
 function eatTail(head, body) {
@@ -602,7 +605,7 @@ recordsCloseButton.onclick = function () {
 
 backToMainPageButton.onclick = function () {
     switchToState({ pagename: 'MAIN' });
-    stateOfGame = 2;
+    stateOfGame = 0;
     state();
     soundOfGame.pause();
     musicOn = false;
@@ -616,6 +619,8 @@ pauseSide.onclick = function () {
 
 playSide.onclick = function () {
     switchToState({ pagename: 'CONTINUE' });
+    soundOfGame.play();
+    musicOn = true;
 
 }
 
@@ -636,10 +641,14 @@ soundSide.onclick = function () {
 
 pauseMini.onclick = function () {
     switchToState({ pagename: 'PAUSE' })
+    soundOfGame.pause();
+    musicOn = false;
 }
 
 playMini.onclick = function () {
     switchToState({ pagename: 'CONTINUE' });
+    soundOfGame.play();
+    musicOn = true;
 }
 soundMini.onclick = function () {
     if (musicOn) {
@@ -656,10 +665,18 @@ soundMini.onclick = function () {
     }
 }
 buttonRemember.onclick = function () {
+    let inputName = document.getElementById('NAME');
     let bestName = document.getElementById('NAME').value;
-    AJAXStor.updateStorage(bestName, score);
-    hiddenNameGamer.style.display = 'none';
-    thanks.style.display = 'block';
+    if (bestName === '') {
+        inputName.style.border = '5px dotted red';
+        inputName.style.background = '#ee6565';
+    } else {
+        inputName.style.border = '5px dotted #eeacac';
+        inputName.style.background = '#202020';
+        AJAXStor.updateStorage(bestName, score);
+        hiddenNameGamer.style.display = 'none';
+        thanks.style.display = 'block';
+    }
 }
 recordsButton2.onclick = function () {
     document.getElementById('NAME').value = '';
