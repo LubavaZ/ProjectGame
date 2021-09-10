@@ -486,7 +486,7 @@ function drawGame() {
 //если змейка сталкивается с собственным телом
 function eatTail(head, body) {
     for (let elem of body) {
-        if (head.x == elem.x && head.y == elem.y) {
+        if (head.x == elem.x && head.y == elem.y && stateOfGame !== 3) {
             stateOfGame = 2;
             state();
             switchToState({ pagename: 'GAMEOVER' });
@@ -544,8 +544,8 @@ function switchToStateFromURLHash() {
             recordsPage.style.top = '0';
             nameGamerPage.style.opacity = '0';
             nameGamerPage.style.top = '-105vh';
-            hiddenNameGamer.style.display = 'block';
-            thanks.style.display = 'none';
+            hiddenNameGamer.style.display = 'none';
+            thanks.style.display = 'block';
             AJAXStor.getInfo();
             break;
         case 'PAUSE':
@@ -616,6 +616,7 @@ pauseSide.onclick = function () {
 
 playSide.onclick = function () {
     switchToState({ pagename: 'CONTINUE' });
+
 }
 
 soundSide.onclick = function () {

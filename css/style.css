@@ -136,12 +136,10 @@ canvas {
 
 #sON, #sONside {
     opacity: 1;
-    transition: all ease-out .5s;
 }
 
 #sOFF, #sOFFside {
     opacity: 0;
-    transition: all ease-out .5s;
 }
 
 #sONside, #sOFFside {

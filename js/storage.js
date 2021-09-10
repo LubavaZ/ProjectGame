@@ -39,7 +39,8 @@ export default class StorageRecords {
         else {
             let bestName = document.getElementById('NAME').value;
             this.storageArr = JSON.parse(callresult.result);
-            this.storageArr.push({ name: bestName, record: score });
+            // this.storageArr.push({ name: bestName, record: score });
+            this.storageArr.slice(10);
             $.ajax(
                 {
                     url: this.ajaxHandlerScript, type: 'POST', cache: false, dataType: 'json',
