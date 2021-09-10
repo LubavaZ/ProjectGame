@@ -453,7 +453,6 @@ function drawGame() {
         if (snake.head.length > 1) {
             snake.head.splice(snake.head.length - 2, 2);
         } else {
-            vibr(500);
             stateOfGame = 2;
             state();
             switchToState({ pagename: 'GAMEOVER' });
@@ -546,6 +545,8 @@ function switchToStateFromURLHash() {
             recordsPage.style.top = '0';
             nameGamerPage.style.opacity = '0';
             nameGamerPage.style.top = '-105vh';
+            hiddenNameGamer.style.display = 'block';
+            thanks.style.display = 'none';
             AJAXStor.getInfo();
             break;
         case 'PAUSE':
@@ -563,6 +564,8 @@ function switchToStateFromURLHash() {
             gamePage.style.display = 'block';
             nameGamerPage.style.top = '0';
             nameGamerPage.style.opacity = '1';
+            hiddenNameGamer.style.display = 'block';
+            thanks.style.display = 'none';
             soundOfGame.pause();
             musicOn = false;
             break;
@@ -659,6 +662,7 @@ buttonRemember.onclick = function () {
     thanks.style.display = 'block';
 }
 recordsButton2.onclick = function () {
+    document.getElementById('NAME').value = '';
     stateOfGame = 0;
     state();
     switchToState({ pagename: 'RECORDS' });
