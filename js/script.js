@@ -282,7 +282,7 @@ function wall() {
     ctx.stroke();
     ctx.closePath();
 }
-
+let direction;
 //СОСТОЯНИЕ ИГРЫ
 function state() {
     if (stateOfGame === 0) {
@@ -300,6 +300,7 @@ function state() {
     } else if (stateOfGame === 2) { //конец игры
         speedX = 0;
         speedY = 0;
+        direction = false;
     } else if (stateOfGame === 3) { //пауза в игре
         speedX = 0;
         speedY = 0;
@@ -308,7 +309,7 @@ function state() {
     }
 }
 //УПРАВЛЕНИЕ НА КЛАВИАТУРЕ
-let direction;
+
 document.addEventListener('keydown', function (e) {
     stateOfGame = 1;
     state();

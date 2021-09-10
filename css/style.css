@@ -38,7 +38,7 @@
 }
 
 .loaded_hiding .preloader {
-    transition: 2s opacity;
+    transition: 1.5s opacity;
     opacity: 0;
 }
 
@@ -169,7 +169,7 @@ canvas {
     display: flex;
     opacity: 0;
     top: -105vh;
-    transition: all ease-in-out 1.5s;
+    transition: all ease-in-out 1s;
 }
 
 #rules h2, #records h2, #additional-menu h2, #nameGamer h2 {
@@ -209,7 +209,7 @@ canvas {
     display: flex;
     opacity: 0;
     top: -105vh;
-    transition: all ease-in-out 1.5s;
+    transition: all ease-in-out 1s;
 }
 
 #records-content {
