@@ -300,6 +300,7 @@ function state() {
     } else if (stateOfGame === 2) { //конец игры
         speedX = 0;
         speedY = 0;
+        vibr(500);
     } else if (stateOfGame === 3) { //пауза в игре
         speedX = 0;
         speedY = 0;
@@ -453,7 +454,6 @@ function drawGame() {
         if (snake.head.length > 1) {
             snake.head.splice(snake.head.length - 2, 2);
         } else {
-            vibr(500);
             stateOfGame = 2;
             state();
             switchToState({ pagename: 'GAMEOVER' });
@@ -488,7 +488,6 @@ function drawGame() {
 function eatTail(head, body) {
     for (let elem of body) {
         if (head.x == elem.x && head.y == elem.y) {
-            vibr(500);
             stateOfGame = 2;
             state();
             switchToState({ pagename: 'GAMEOVER' });
