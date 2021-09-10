@@ -307,6 +307,9 @@ canvas {
     #rules p, #additional-menu p {
         margin-top: 3vw;
     }
+    #rules p {
+        font-size: 3vw;
+    }
     #records-content {
         width: 90vw;
         font-size: 3vh;

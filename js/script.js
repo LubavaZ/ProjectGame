@@ -487,7 +487,6 @@ function drawGame() {
 function eatTail(head, body) {
     for (let elem of body) {
         if (head.x == elem.x && head.y == elem.y) {
-            vibr(500);
             stateOfGame = 2;
             state();
             switchToState({ pagename: 'GAMEOVER' });
