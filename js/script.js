@@ -282,18 +282,6 @@ function wall() {
     ctx.stroke();
     ctx.closePath();
 }
-//если змейка сталкивается с собственным телом
-function eatTail(head, body) {
-    for (let elem of body) {
-        if (head.x == elem.x && head.y == elem.y) {
-            stateOfGame = 2;
-        }
-    }
-}
-
-function randomDiap(min, max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
 
 //СОСТОЯНИЕ ИГРЫ
 function state() {
@@ -457,6 +445,7 @@ function drawGame() {
     else if (snake.collision(bomb.xBomb, bomb.yBomb, snakeX, snakeY) === true) {
         score--;
         soundOfBomb.play();
+        vibr(500);
         do {
             bomb.xBomb = randomDiap(2, 22) * boxX;
             bomb.yBomb = randomDiap(2, 21) * boxY;
@@ -464,6 +453,7 @@ function drawGame() {
         if (snake.head.length > 1) {
             snake.head.splice(snake.head.length - 2, 2);
         } else {
+            vibr(500);
             stateOfGame = 2;
             state();
             switchToState({ pagename: 'GAMEOVER' });
@@ -475,7 +465,6 @@ function drawGame() {
 
     //столкновение с основными стенами
     if (snakeX < boxX * 1.5 || snakeX > boxX * 23.5 || snakeY < boxY * 2.5 || snakeY > boxY * 23.5) {
-        vibr(500);
         stateOfGame = 2;
         state();
         switchToState({ pagename: 'GAMEOVER' });
@@ -495,9 +484,16 @@ function drawGame() {
     eatTail(newHead, snake.head);
     snake.head.unshift(newHead);
 }
-
-function vibr(s) {
-    navigator.vibrate(s);
+//если змейка сталкивается с собственным телом
+function eatTail(head, body) {
+    for (let elem of body) {
+        if (head.x == elem.x && head.y == elem.y) {
+            vibr(500);
+            stateOfGame = 2;
+            state();
+            switchToState({ pagename: 'GAMEOVER' });
+        }
+    }
 }
 
 let timer = setInterval(drawGame, 80);
@@ -677,3 +673,11 @@ function exit(e) {
     if (stateOfGame === 1 || stateOfGame === 3)
         e.returnValue = 'А у вас есть несохранённые изменения!';
 };
+
+//ДОПОЛНИТЕЛЬНЫЕ ФУНКЦИИ
+function vibr(s) {
+    navigator.vibrate(s);
+}
+function randomDiap(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
