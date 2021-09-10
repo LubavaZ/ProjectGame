@@ -62,7 +62,6 @@ export default class StorageRecords {
             this.storageArr = [];
         } else if (callresult.result != "") {
             this.storageArr = JSON.parse(callresult.result);
-            console.log(this.storageArr);
             this.createRecordTable(this.recordsContent, this.storageArr);
         }
     }

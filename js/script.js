@@ -6,7 +6,7 @@ import StorageRecords from "./storage.js";
 let AJAXStor = new StorageRecords('ZHYHALKA_RECORDS');
 //КНОПКИ
 let startGame = document.getElementById('startGame');//кнопка с главной страницы
-startGame.addEventListener('touchstart', vibr(500));
+startGame.addEventListener('touchstart', vibr(300));
 let rulesButton = document.getElementById('rulesButton');
 let recordsButton = document.getElementById('recordsButton');
 let recordsButton2 = document.getElementById('recordsButton2');
@@ -485,7 +485,6 @@ function drawGame() {
 
     eatTail(newHead, snake.head);
     snake.head.unshift(newHead);
-    console.log(stateOfGame);
 }
 //если змейка сталкивается с собственным телом
 function eatTail(head, body) {
