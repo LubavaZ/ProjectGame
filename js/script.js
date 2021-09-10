@@ -465,6 +465,7 @@ function drawGame() {
     //столкновение с основными стенами
     if (snakeX < boxX * 1.5 || snakeX > boxX * 23.5 || snakeY < boxY * 2.5 || snakeY > boxY * 23.5) {
         vibr(500);
+        navigator.vibrate(0);
         stateOfGame = 2;
         state();
         switchToState({ pagename: 'GAMEOVER' });
