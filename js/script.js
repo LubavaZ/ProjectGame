@@ -298,12 +298,15 @@ function state() {
         speedX = widthOfCan / 25;
         speedY = heightOfCan / 25;
     } else if (stateOfGame === 2) { //конец игры
-        speedX = 0.1;
-        speedY = 0.1;
+        speedX = 0;
+        speedY = 0;
     } else if (stateOfGame === 3) { //пауза в игре
         speedX = 0;
         speedY = 0;
     }
+}
+if (stateOfGame === 2) {
+    vibr(500);
 }
 //УПРАВЛЕНИЕ НА КЛАВИАТУРЕ
 let direction;
@@ -464,8 +467,6 @@ function drawGame() {
 
     //столкновение с основными стенами
     if (snakeX < boxX * 1.5 || snakeX > boxX * 23.5 || snakeY < boxY * 2.5 || snakeY > boxY * 23.5) {
-        vibr(500);
-        navigator.vibrate(0);
         stateOfGame = 2;
         state();
         switchToState({ pagename: 'GAMEOVER' });
