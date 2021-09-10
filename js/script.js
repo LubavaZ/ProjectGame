@@ -84,7 +84,7 @@ const bombImg = new Image();
 bombImg.src = 'images/bomb.png'
 
 const soundOfGame = new Audio();
-soundOfGame.src = '../sounds/forGame.mp3';
+soundOfGame.src = 'sounds/forGame.mp3';
 const soundOfFood = new Audio();
 soundOfFood.src = 'sounds/soundOfFood.mp3';
 const soundOfBomb = new Audio();
