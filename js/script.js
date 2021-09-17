@@ -45,7 +45,6 @@ const ctx = canvas.getContext('2d');
 let windowW = window.innerWidth;
 let windowH = window.innerHeight;
 
-screen.orientation.lock("landscape-primary");
 InitApp();
 window.addEventListener("resize", InitApp);
 
@@ -63,7 +62,6 @@ function InitApp() {
         canvas.height = windowH;
     }
 }
-
 
 let widthOfCan = canvas.width;
 let heightOfCan = canvas.height;
