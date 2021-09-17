@@ -458,7 +458,10 @@ function drawGame() {
         } else {
             stateOfGame = 2;
             state();
-            switchToState({ pagename: 'GAMEOVER' });
+            nameGamerPage.style.top = '0';
+            nameGamerPage.style.opacity = '1';
+            soundOfGame.pause();
+            musicOn = false;
         }
     }
     else {
@@ -469,7 +472,10 @@ function drawGame() {
     if (snakeX < boxX * 1.5 || snakeX > boxX * 23.5 || snakeY < boxY * 2.5 || snakeY > boxY * 23.5) {
         stateOfGame = 2;
         state();
-        switchToState({ pagename: 'GAMEOVER' });
+        nameGamerPage.style.top = '0';
+        nameGamerPage.style.opacity = '1';
+        soundOfGame.pause();
+        musicOn = false;
     }
 
 
@@ -492,7 +498,10 @@ function eatTail(head, body) {
         if (head.x == elem.x && head.y == elem.y && stateOfGame !== 3) {
             stateOfGame = 2;
             state();
-            switchToState({ pagename: 'GAMEOVER' });
+            nameGamerPage.style.top = '0';
+            nameGamerPage.style.opacity = '1';
+            soundOfGame.pause();
+            musicOn = false;
         }
     }
 }
@@ -529,6 +538,10 @@ function switchToStateFromURLHash() {
         case 'GAME':
             mainPage.style.display = 'none';
             gamePage.style.display = 'block';
+            rulesPage.style.opacity = '0';
+            rulesPage.style.top = '-105vh';
+            recordsPage.style.opacity = '0';
+            recordsPage.style.top = '-105vh';
             break;
         case 'RULES':
             mainPage.style.display = 'flex';
@@ -547,29 +560,7 @@ function switchToStateFromURLHash() {
             recordsPage.style.top = '0';
             nameGamerPage.style.opacity = '0';
             nameGamerPage.style.top = '-105vh';
-            hiddenNameGamer.style.display = 'none';
-            thanks.style.display = 'block';
             AJAXStor.getInfo();
-            break;
-        case 'PAUSE':
-            mainPage.style.display = 'none';
-            gamePage.style.display = 'block';
-            additionalMenuPage.style.opacity = '1';
-            additionalMenuPage.style.left = '0';
-            break;
-        case 'CONTINUE':
-            gamePage.style.display = 'block';
-            additionalMenuPage.style.opacity = '0';
-            additionalMenuPage.style.left = '-105vw';
-            break;
-        case 'GAMEOVER':
-            gamePage.style.display = 'block';
-            nameGamerPage.style.top = '0';
-            nameGamerPage.style.opacity = '1';
-            hiddenNameGamer.style.display = 'block';
-            thanks.style.display = 'none';
-            soundOfGame.pause();
-            musicOn = false;
             break;
     }
 }
@@ -612,7 +603,8 @@ backToMainPageButton.onclick = function () {
 }
 
 pauseSide.onclick = function () {
-    switchToState({ pagename: 'PAUSE' });
+    additionalMenuPage.style.opacity = '1';
+    additionalMenuPage.style.left = '0';
     stateOfGame = 3;
     state();
     soundOfGame.pause();
@@ -620,7 +612,8 @@ pauseSide.onclick = function () {
 }
 
 playSide.onclick = function () {
-    switchToState({ pagename: 'CONTINUE' });
+    additionalMenuPage.style.opacity = '0';
+    additionalMenuPage.style.left = '-105vw';
     soundOfGame.play();
     musicOn = true;
 
@@ -642,7 +635,10 @@ soundSide.onclick = function () {
 }
 
 pauseMini.onclick = function () {
-    switchToState({ pagename: 'PAUSE' });
+    mainPage.style.display = 'none';
+    gamePage.style.display = 'block';
+    additionalMenuPage.style.opacity = '1';
+    additionalMenuPage.style.left = '0';
     stateOfGame = 3;
     state();
     soundOfGame.pause();
@@ -650,7 +646,8 @@ pauseMini.onclick = function () {
 }
 
 playMini.onclick = function () {
-    switchToState({ pagename: 'CONTINUE' });
+    additionalMenuPage.style.opacity = '0';
+    additionalMenuPage.style.left = '-105vw';
     soundOfGame.play();
     musicOn = true;
 }
